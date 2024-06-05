@@ -10,7 +10,7 @@ export default function AdminSignIn() {
             <NavBarAuth />
             <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '85vh' }}>
                 <div style={{ width: '100%', maxWidth: '500px', background: 'white', padding: '40px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-                    <h2 className="fw-bold">Sign in as a administrator</h2>
+                    <h2 className="fw-bold">Sign in as an administrator</h2>
                     <p>Sign in to your account to manage the system.</p>
 
                     <Form>
