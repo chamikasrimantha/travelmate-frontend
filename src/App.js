@@ -3,14 +3,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserSignUp from './pages/user/user.auth/UserSignUp';
 import UserSignIn from './pages/user/user.auth/UserSignIn';
+import PartnerSignUp from './pages/partner/partner.auth/PartnerSignUp';
+import PartnerSignIn from './pages/partner/partner.auth/PartnerSignIn';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
+
           <Route path='/signup' element={<UserSignUp/>} />
           <Route path='/signin' element={<UserSignIn/>} />
+
+          <Route path='/partner/signup' element={<PartnerSignUp/>} />
+          <Route path='/partner/signin' element={<PartnerSignIn/>} />
+
         </Routes>
       </BrowserRouter>
     </div>

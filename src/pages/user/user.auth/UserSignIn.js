@@ -17,7 +17,7 @@ export default function UserSignIn() {
       <NavBarAuth />
       <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '85vh' }}>
         <div style={{ width: '100%', maxWidth: '500px', background: 'white', padding: '40px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-          <h2 className="fw-bold">Sign In to your account</h2>
+          <h2 className="fw-bold">Sign in to your account</h2>
           <p>Sign in to your account to explore travel destinations in LK.</p>
 
           <Form>
