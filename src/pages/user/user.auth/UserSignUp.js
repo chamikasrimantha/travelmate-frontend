@@ -2,14 +2,22 @@ import React from 'react'
 import NavBarAuth from '../../../components/navbar/NavBarAuth'
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserSignUp() {
+
+  const navigate = useNavigate();
+
+  const gotoSignIn = () => {
+    navigate('/signin');
+  }
+
   return (
     <div>
       <NavBarAuth />
-      <Container style={{padding: '20px', marginTop: '20px', textAlign: 'left'}} className="mt-1">
+      <Container style={{ padding: '20px', marginTop: '20px', textAlign: 'left' }} className="mt-1">
         <h2 className="fw-bold">Create an account</h2>
-        <p>Create an account to explore travel destinations in Sri Lanka</p>
+        <p>Create an account to explore travel destinations in Sri Lanka.</p>
 
         <Form>
           <Row className="mb-3">
@@ -58,7 +66,7 @@ export default function UserSignUp() {
 
         </Form>
 
-        <p className="mt-3">Already have an account? <br /> <a href="#login" className="text-primary" style={{ color: '#1677FF', textDecoration: 'none' }}>Click here to sign in</a></p>
+        <p className="mt-3">Already have an account? <br /> <a href='' onClick={gotoSignIn} className="text-primary" style={{ color: '#1677FF', textDecoration: 'none' }}>Click here to sign in</a></p>
       </Container>
     </div>
   )
