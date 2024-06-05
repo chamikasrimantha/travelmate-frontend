@@ -5,6 +5,7 @@ import UserSignUp from './pages/user/user.auth/UserSignUp';
 import UserSignIn from './pages/user/user.auth/UserSignIn';
 import PartnerSignUp from './pages/partner/partner.auth/PartnerSignUp';
 import PartnerSignIn from './pages/partner/partner.auth/PartnerSignIn';
+import AdminSignIn from './pages/admin/admin.auth/AdminSignIn';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
 
           <Route path='/partner/signup' element={<PartnerSignUp/>} />
           <Route path='/partner/signin' element={<PartnerSignIn/>} />
+
+          <Route path='/admin/signin' element={<AdminSignIn/>} />
 
         </Routes>
       </BrowserRouter>
