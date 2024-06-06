@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Container, Nav, OverlayTrigger, Tooltip, Dropdown, Button } from 'react-bootstrap';
-import { FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 export default function NavBarUser() {
@@ -18,19 +18,20 @@ export default function NavBarUser() {
     const isSignedIn = true; // check
 
     return (
-        <div>
-            <Navbar style={{ backgroundColor: '#043E96', minHeight: '70px' }} variant="dark">
-                <Container className="d-flex justify-content-between align-items-center">
-                    <Navbar.Brand href="" style={{ color: 'white', fontStyle: 'italic', fontWeight: 500, alignItems: 'center' }}>
-                        TravelMate.lk
-                    </Navbar.Brand>
-                    <Nav className="ml-auto">
-                        <Nav.Link href="#home" style={{ color: 'white', marginRight: '20px' }}>Home</Nav.Link>
-                        <Nav.Link href="#cities" style={{ color: 'white', marginRight: '20px' }}>Cities</Nav.Link>
-                        <Nav.Link href="#properties" style={{ color: 'white', marginRight: '20px' }}>Properties</Nav.Link>
-                        <Nav.Link href="#chat" style={{ color: 'white', marginRight: '20px' }}>Chat</Nav.Link>
-                        <Nav.Link href="#ai-assistant" style={{ color: 'white', marginRight: '20px' }}>AI Assistant</Nav.Link>
-                        <Nav.Link href="#bookings" style={{ color: 'white', marginRight: '20px' }}>Bookings</Nav.Link>
+        <Navbar expand="lg" style={{ backgroundColor: '#043E96', minHeight: '70px' }} variant="dark">
+            <Container>
+                <Navbar.Brand href="" style={{ color: 'white', fontStyle: 'italic', fontWeight: 500 }}>
+                    TravelMate.lk
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mx-auto">
+                        <Nav.Link href="#home" style={{ color: 'white', marginRight: '30px' }}>Home</Nav.Link>
+                        <Nav.Link href="#cities" style={{ color: 'white', marginRight: '30px' }}>Cities</Nav.Link>
+                        <Nav.Link href="#properties" style={{ color: 'white', marginRight: '30px' }}>Properties</Nav.Link>
+                        <Nav.Link href="#chat" style={{ color: 'white', marginRight: '30px' }}>Chat</Nav.Link>
+                        <Nav.Link href="#ai-assistant" style={{ color: 'white', marginRight: '30px' }}>AI Assistant</Nav.Link>
+                        <Nav.Link href="#bookings" style={{ color: 'white', marginRight: '30px' }}>Bookings</Nav.Link>
                     </Nav>
                     <Nav>
                         {isSignedIn ? (
@@ -50,13 +51,13 @@ export default function NavBarUser() {
                             </Dropdown>
                         ) : (
                             <div style={{ display: 'flex', gap: '10px' }}>
-                                <Button href="" onClick={gotoSignIn} variant="light" style={{ color: '#043E96' }}>Sign In</Button>
-                                <Button href="" onClick={gotoSignUp} variant="light" style={{ color: '#043E96' }}>Sign Up</Button>
+                                <Button onClick={gotoSignIn} variant="light" style={{ color: '#043E96' }}>Sign In</Button>
+                                <Button onClick={gotoSignUp} variant="light" style={{ color: '#043E96' }}>Sign Up</Button>
                             </div>
                         )}
                     </Nav>
-                </Container>
-            </Navbar>
-        </div>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 }
