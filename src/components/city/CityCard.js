@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function CityCard({ city }) {
-    const { image, name, rate, district } = city;
+    const { id, image, name, rate, district } = city;
 
     // Function to get the rating label
     const getRatingLabel = (rate) => {
@@ -21,7 +21,7 @@ export default function CityCard({ city }) {
     };
 
     return (
-        <Link to={`/city/${name}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/city/${id}`} style={{ textDecoration: 'none' }}>
             <Card className="mb-3 d-flex flex-row" style={{ maxWidth: 345, height: 160 }}>
                 <CardMedia
                     component="img"
