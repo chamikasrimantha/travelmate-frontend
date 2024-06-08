@@ -7,6 +7,7 @@ import PartnerSignUp from './pages/partner/partner.auth/PartnerSignUp';
 import PartnerSignIn from './pages/partner/partner.auth/PartnerSignIn';
 import AdminSignIn from './pages/admin/admin.auth/AdminSignIn';
 import UserHome from './pages/user/user.home/UserHome';
+import UserCity from './pages/user/user.city/UserCity';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/signup' element={<UserSignUp/>} />
           <Route path='/signin' element={<UserSignIn/>} />
           <Route path='/' element={<UserHome/>} />
+          <Route path='/city/:id' element={<UserCity/>} />
 
           <Route path='/partner/signup' element={<PartnerSignUp/>} />
           <Route path='/partner/signin' element={<PartnerSignIn/>} />

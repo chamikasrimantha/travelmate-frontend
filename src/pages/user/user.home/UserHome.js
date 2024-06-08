@@ -13,21 +13,33 @@ export default function UserHome() {
     // Sample data
     const cities = [
         {
+            id: '1',
             image: 'https://via.placeholder.com/300', // Sample image URL
             name: 'Colombo',
             rate: 4.4,
+            postCode: '12500',
+            latitude: '8.5333',
+            longitude: '80.4833',
             district: 'Colombo District'
         },
         {
+            id: '2',
             image: 'https://via.placeholder.com/300',
             name: 'Galle',
             rate: 4.2,
+            postCode: '12500',
+            latitude: '8.5333',
+            longitude: '80.4833',
             district: 'Galle District'
         },
         {
+            id: '3',
             image: 'https://via.placeholder.com/300',
             name: 'Jaffna',
             rate: 3.8,
+            postCode: '12500',
+            latitude: '8.5333',
+            longitude: '80.4833',
             district: 'Jaffna District'
         }
     ];
