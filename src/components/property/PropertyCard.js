@@ -18,7 +18,7 @@ export default function PropertyCard({ property }) {
     const cardStyle = {
         maxWidth: '550px',
         borderRadius: '8px',
-        border: '1.5px solid gray',
+        border: '0.1px solid gray',
     };
 
     return (

@@ -8,7 +8,7 @@ const RateCard = ({ rateData }) => {
         padding: '15px',
         maxWidth: '330px',
         borderRadius: '8px',
-        border: '0.3px solid gray',
+        border: '0.1px solid gray',
     };
 
     const rateBoxStyle = {
@@ -30,7 +30,7 @@ const RateCard = ({ rateData }) => {
     };
 
     return (
-        <Card className="mb-3" style={cardStyle}>
+        <div className="mb-3" style={cardStyle}>
             <CardContent>
                 <Typography style={rateBoxStyle} variant="h6">{rateData.name}</Typography>
                 <div style={rateBoxStyle}>
@@ -41,7 +41,7 @@ const RateCard = ({ rateData }) => {
                     {rateData.comment}
                 </Typography>
             </CardContent>
-        </Card>
+        </div>
     );
 };
 

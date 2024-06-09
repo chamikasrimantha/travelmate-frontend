@@ -22,7 +22,7 @@ export default function CityCard({ city }) {
 
     return (
         <Link to={`/city/${id}`} style={{ textDecoration: 'none' }}>
-            <Card className="mb-3 d-flex flex-row" style={{ maxWidth: 345, height: 160 }}>
+            <div className="mb-3 d-flex flex-row" style={{ maxWidth: 345, height: 160, border: '0.1px solid black' }}>
                 <CardMedia
                     component="img"
                     alt={name}
@@ -32,7 +32,7 @@ export default function CityCard({ city }) {
                 />
                 <CardContent className="d-flex flex-column justify-content-center" style={{ marginLeft: "7px", padding: '10px' }}>
                     <Box display="flex" flexDirection="column" alignItems="flex-start" flex="1" gap={1}>
-                        <Typography style={{ fontWeight: 'bold' }} gutterBottom variant="h6" component="div">
+                        <Typography style={{ fontWeight: 'bold', color: 'black' }} gutterBottom variant="h6" component="div">
                             {name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -42,19 +42,19 @@ export default function CityCard({ city }) {
                             <Rating style={{ marginLeft: "-4px" }} name="read-only" value={rate} readOnly />
                         </Box>
                         <Box display="flex" alignItems="center">
-                            <Typography variant="body1" style={{ marginRight: '3px' }}>
+                            <Typography variant="body1" style={{ marginRight: '3px', color: 'black' }}>
                                 {rate}
                             </Typography>
-                            <Typography variant="body1" style={{ marginRight: '5px' }}>
+                            <Typography variant="body1" style={{ marginRight: '5px', color: 'black' }}>
                                 /
                             </Typography>
-                            <Typography variant="body1">
+                            <Typography variant="body1" style={{color: 'black'}}>
                                 {getRatingLabel(rate)}
                             </Typography>
                         </Box>
                     </Box>
                 </CardContent>
-            </Card>
+            </div>
         </Link>
     );
 }
