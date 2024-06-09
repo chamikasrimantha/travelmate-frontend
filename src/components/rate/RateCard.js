@@ -8,12 +8,7 @@ const RateCard = ({ rateData }) => {
         padding: '15px',
         maxWidth: '330px',
         borderRadius: '8px',
-        boxShadow: '5px 4px 8px 5px rgba(0, 0, 0, 0.2)', // Increased box shadow
-        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out', // Added box-shadow to transition
-        '&:hover': {
-            transform: 'scale(1.1)', // Increased scale factor on hover
-            boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)', // Increased box shadow on hover
-        },
+        border: '0.3px solid gray',
     };
 
     const rateBoxStyle = {

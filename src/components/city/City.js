@@ -6,6 +6,7 @@ import Footer from '../footer/Footer';
 import RateCard from '../rate/RateCard';
 import { useNavigate } from 'react-router-dom';
 import AddCityReview from '../rate/AddCityReview';
+import PropertyCard from '../property/PropertyCard';
 
 export default function City() {
 
@@ -49,6 +50,29 @@ export default function City() {
             name: 'Jane Doe',
             rate: 3.5,
             comment: 'Nice place, but could be better. Nice place, but could be better.',
+        }
+    ];
+
+    const properties = [
+        {
+            id: '1',
+            image: 'https://via.placeholder.com/150',
+            name: 'Luxury Hotel',
+            rate: 4.3,
+            district: 'Colombo District',
+            city: 'Colombo',
+            location: '123 Main Street, Colombo, Sri Lanka',
+            description: 'A luxurious hotel with stunning views and excellent amenities.'
+        },
+        {
+            id: '2',
+            image: 'https://via.placeholder.com/150',
+            name: 'Luxury Hotel',
+            rate: 4.3,
+            district: 'Colombo District',
+            city: 'Colombo',
+            location: '123 Main Street, Colombo, Sri Lanka',
+            description: 'A luxurious hotel with stunning views and excellent amenities.'
         }
     ];
 
@@ -239,15 +263,20 @@ export default function City() {
             </Dialog>
 
 
-
-            {/* Line */}
-            <Container style={{ backgroundColor: '#184D9D', padding: '10px', marginTop: '20px', borderRadius: '20px' }}>
-                <Typography variant="body1" style={{ color: 'white' }}>
-                    <i>{cityData.name}</i> : {cityData.postCode} Properties found
-                </Typography>
-            </Container>
-
             {/* Properties */}
+            <Container fluid>
+                <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
+                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>{cityData.name}: {cityData.postCode} properties found</h4>
+                    <p style={{ textAlign: 'left', color: '#184D9D', cursor: 'pointer' }}>Load all properties</p>
+                </div>
+                <Row style={{ marginLeft: '4%', marginRight: '4%' }} xs={1} md={2} className="g-1 justify-content-center">
+                    {properties.map((property, index) => (
+                        <Col key={index} className="d-flex justify-content-center">
+                            <PropertyCard property={property} />
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
 
         </div>
     );
