@@ -9,6 +9,8 @@ import AdminSignIn from './pages/admin/admin.auth/AdminSignIn';
 import UserHome from './pages/user/user.home/UserHome';
 import UserCity from './pages/user/user.city/UserCity';
 import UserProperty from './pages/user/user.property/UserProperty';
+import UserCities from './pages/user/user.city/UserCities';
+import UserProperties from './pages/user/user.property/UserProperties';
 
 function App() {
   return (
@@ -20,7 +22,9 @@ function App() {
           <Route path='/signin' element={<UserSignIn/>} />
           <Route path='/' element={<UserHome/>} />
           <Route path='/city/:id' element={<UserCity/>} />
+          <Route path='/cities' element={<UserCities/>} />
           <Route path='/property/:id' element={<UserProperty/>} />
+          <Route path='/properties' element={<UserProperties/>} />
 
           <Route path='/partner/signup' element={<PartnerSignUp/>} />
           <Route path='/partner/signin' element={<PartnerSignIn/>} />

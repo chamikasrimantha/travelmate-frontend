@@ -95,7 +95,7 @@ export default function UserHome() {
                     <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Trending Destinations</h4>
                     <p style={{ textAlign: 'left' }}>Most popular choices for travelers from Sri Lanka</p>
                 </div>
-                <Row style={{ marginLeft: '0%' }} xs={1} md={3} className="g-1 justify-content-center">
+                <Row style={{ marginLeft: '1%', marginRight: '1%' }} xs={1} md={3} className="g-1 justify-content-center">
                     {cities.map((city, index) => (
                         <Col key={index} className="d-flex justify-content-center">
                             <CityCard city={city} />
