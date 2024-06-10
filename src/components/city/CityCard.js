@@ -22,7 +22,7 @@ export default function CityCard({ city }) {
 
     return (
         <Link to={`/city/${id}`} style={{ textDecoration: 'none' }}>
-            <div className="mb-3 d-flex flex-row" style={{ maxWidth: 345, height: 160, border: '0.1px solid black' }}>
+            <div className="mb-3 d-flex flex-row" style={{ maxWidth: 345, height: 160, border: '0.1px solid #DEDDDD' }}>
                 <CardMedia
                     component="img"
                     alt={name}

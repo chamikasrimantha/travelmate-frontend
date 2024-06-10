@@ -232,9 +232,9 @@ export default function Property() {
                         <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Most popular facilities</h4>
 
                         <p style={{ textAlign: 'left' }}>
-                            <CheckCircleIcon style={{ color: 'blue', marginRight: '5px' }} />
+                            <CheckCircleIcon style={{ color: '#043E96', marginRight: '5px' }} />
                             : Included
-                            <CancelIcon style={{ color: 'red', marginLeft: '10px', marginRight: '5px' }} />
+                            <CancelIcon style={{ color: '#D9241F', marginLeft: '10px', marginRight: '5px' }} />
                             : Excluded
                         </p>
 
@@ -243,7 +243,7 @@ export default function Property() {
                 <Row style={{ marginTop: '7px', marginLeft: '4%', marginRight: '4%' }} xs={1} md={4} className="g-1 justify-content-center">
                     {facilities.map((facility, index) => (
                         <Col key={index} className="d-flex align-items-center mb-2">
-                            <Typography variant="body1" style={{ color: facility.available ? 'blue' : 'red', marginLeft: '8px' }}>
+                            <Typography variant="body1" style={{ color: facility.available ? '#043E96' : '#D9241F', marginLeft: '8px' }}>
                                 {facility.icon}
                                 {facility.name}
                             </Typography>

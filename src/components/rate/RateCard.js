@@ -8,7 +8,7 @@ const RateCard = ({ rateData }) => {
         padding: '15px',
         maxWidth: '330px',
         borderRadius: '8px',
-        border: '0.1px solid gray',
+        border: '0.1px solid #DEDDDD',
     };
 
     const rateBoxStyle = {
