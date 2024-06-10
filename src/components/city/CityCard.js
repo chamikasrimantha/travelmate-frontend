@@ -28,7 +28,7 @@ export default function CityCard({ city }) {
                     alt={name}
                     height="160"
                     image={image}
-                    style={{ width: 160 }}
+                    style={{ width: 160, height: 160 }}
                 />
                 <CardContent className="d-flex flex-column justify-content-center" style={{ marginLeft: "7px", padding: '10px' }}>
                     <Box display="flex" flexDirection="column" alignItems="flex-start" flex="1" gap={1}>
