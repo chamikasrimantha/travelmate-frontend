@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, Row, Col, Form, FormControl } from 'react-bootstrap';
-import { Box, Typography, Rating, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Container, Row, Col, Form, FormControl, Table } from 'react-bootstrap';
+import { Box, Typography, Rating, Button, useMediaQuery, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
@@ -12,9 +12,18 @@ import TvIcon from '@mui/icons-material/Tv';
 import PoolIcon from '@mui/icons-material/Pool';
 import HotTubIcon from '@mui/icons-material/HotTub';
 import BalconyIcon from '@mui/icons-material/Balcony';
-import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
+import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import DeckIcon from '@mui/icons-material/Deck';
+
 import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import PetsIcon from '@mui/icons-material/Pets';
+import SmokingRoomsIcon from '@mui/icons-material/SmokingRooms';
+import SmokingRoomsOutlinedIcon from '@mui/icons-material/SmokingRoomsOutlined';
+import GroupIcon from '@mui/icons-material/Group';
+import LocalBarIcon from '@mui/icons-material/LocalBar';
+import PaymentIcon from '@mui/icons-material/Payment';
+
 import RateCard from '../rate/RateCard';
 
 export default function Property() {
@@ -43,6 +52,7 @@ export default function Property() {
         name: 'Luxury Hotel',
         category: 'Normal Hotel',
         rate: 4.3,
+        reviews: 231,
         district: 'Colombo District',
         city: 'Colombo',
         location: '123 Main Street, Colombo, Sri Lanka',
@@ -53,6 +63,7 @@ export default function Property() {
         email: 'luxury@gmail.com',
         hotline: '+94 76 163 5652',
         price: 'Rs. 12,000/-',
+        // services
         airconditioning: true,
         heating: false,
         wifi: true,
@@ -63,9 +74,19 @@ export default function Property() {
         swimmingpool: true,
         hottub: false,
         balcony: true,
-        gardenview: true,
-        terrace: true
+        parking: true,
+        terrace: true,
+        // rules
+        checkin: '02:00 PM',
+        checkout: '11:00 AM',
+        agerestriction: false, // there is not age restriction for checkin
+        smoking: false,
+        pets: false,
+        parties: true,
+        paymentmethods: 'Visa, Cash',
     }
+
+    const isMobile = useMediaQuery('(max-width: 600px)');
 
     const facilities = [
         { name: 'Air Conditioning', available: propertyData.airconditioning, icon: <AcUnitIcon /> },
@@ -77,9 +98,19 @@ export default function Property() {
         { name: 'Swimming Pool', available: propertyData.swimmingpool, icon: <PoolIcon /> },
         { name: 'Hot Tub', available: propertyData.hottub, icon: <HotTubIcon /> },
         { name: 'Balcony', available: propertyData.balcony, icon: <BalconyIcon /> },
-        { name: 'Garden View', available: propertyData.gardenview, icon: <LocalFloristIcon /> },
+        { name: 'Parking', available: propertyData.parking, icon: <LocalParkingIcon /> },
         { name: 'Terrace', available: propertyData.terrace, icon: <DeckIcon /> },
         { name: 'Breakfast', available: propertyData.breakfast, icon: <BreakfastDiningIcon /> }
+    ];
+
+    const houseRules = [
+        { name: 'Check-in', value: `From ${propertyData.checkin}`, icon: <AccessTimeIcon /> },
+        { name: 'Check-out', value: `Until ${propertyData.checkout}`, icon: <AccessTimeIcon /> },
+        { name: 'Age Restriction', value: propertyData.agerestriction ? 'Age restriction applies' : 'No age restriction', icon: <GroupIcon /> },
+        { name: 'Smoking', value: propertyData.smoking ? 'Smoking allowed' : 'Smoking not allowed', icon: propertyData.smoking ? <SmokingRoomsIcon /> : <SmokingRoomsOutlinedIcon /> },
+        { name: 'Pets', value: propertyData.pets ? 'Pets allowed' : 'Pets are not allowed', icon: <PetsIcon /> },
+        { name: 'Parties', value: propertyData.parties ? 'Parties/events allowed' : 'Parties/events are not allowed', icon: <LocalBarIcon /> },
+        { name: 'Payment Methods', value: `Accepted payment methods: ${propertyData.paymentmethods}`, icon: <PaymentIcon /> },
     ];
 
     // Function to get the rating label
@@ -221,6 +252,19 @@ export default function Property() {
                         <Typography variant="body1" style={{ marginTop: '20px', textAlign: 'justify' }}>
                             {propertyData.description}
                         </Typography>
+                        <Button
+                            className="d-flex justify-content-between align-items-center mt-3"
+                            style={{
+                                backgroundColor: '#184D9D',
+                                color: 'white',
+                                borderRadius: '8px',
+                                padding: '8px 12px',
+                                border: 'none',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            I'll Serve
+                        </Button>
                     </Col>
                 </Row>
             </Container>
@@ -231,7 +275,7 @@ export default function Property() {
                     <div>
                         <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Most popular facilities</h4>
 
-                        <p style={{ textAlign: 'left' }}>
+                        <p style={{ textAlign: 'left', fontSize: '1rem' }}>
                             <CheckCircleIcon style={{ color: '#043E96', marginRight: '5px' }} />
                             : Included
                             <CancelIcon style={{ color: '#D9241F', marginLeft: '10px', marginRight: '5px' }} />
@@ -240,10 +284,13 @@ export default function Property() {
 
                     </div>
                 </div>
-                <Row style={{ marginTop: '7px', marginLeft: '4%', marginRight: '4%' }} xs={1} md={4} className="g-1 justify-content-center">
+                <Row style={{ marginTop: '7px', marginLeft: '4%', marginRight: '4%' }} xs={2} md={4} className="g-1 justify-content-center">
                     {facilities.map((facility, index) => (
                         <Col key={index} className="d-flex align-items-center mb-2">
-                            <Typography variant="body1" style={{ color: facility.available ? '#043E96' : '#D9241F', marginLeft: '8px' }}>
+                            <Typography
+                                variant="body1"
+                                style={{ color: facility.available ? '#043E96' : '#D9241F', marginLeft: '8px', fontSize: isMobile ? '0.75rem' : '1rem' }}
+                            >
                                 {facility.icon}
                                 {facility.name}
                             </Typography>
@@ -252,27 +299,23 @@ export default function Property() {
                 </Row>
             </Container>
 
+            {/* Availability */}
+            <Container fluid>
+                <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
+                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Availability</h4>
+                    <p style={{ textAlign: 'left' }}> Select dates to see this property's availability and prices</p>
+                </div>
+                <Row style={{ marginLeft: '5%', marginRight: '5%' }} xs={1} md={1} className="g-1 justify-content-center">
+
+                </Row>
+            </Container>
+
             {/* Reviews */}
             <Container fluid>
                 <div className="d-flex justify-content-between align-items-center mt-4" style={{ marginLeft: '5%', marginRight: '5%' }}>
                     <div>
-                        <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Reviews</h4>
+                        <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Guest reviews</h4>
                     </div>
-                    {/* <div>
-                        <Button
-                            style={{
-                                backgroundColor: '#184D9D',
-                                color: 'white',
-                                borderRadius: '4px',
-                                padding: '8px 12px',
-                                border: 'none',
-                                cursor: 'pointer'
-                            }}
-                            onClick={handleClickOpen}
-                        >
-                            Add Review
-                        </Button>
-                    </div> */}
                 </div>
                 <div style={{ marginTop: '7px', textAlign: 'left', display: 'flex', alignItems: 'center', marginLeft: '5%' }}>
                     <div style={{ backgroundColor: '#184D9D', color: 'white', borderRadius: '4px', padding: '4px 8px', marginRight: '10px' }}>
@@ -288,6 +331,31 @@ export default function Property() {
                             <RateCard rateData={rate} />
                         </Col>
                     ))}
+                </Row>
+            </Container>
+
+            {/* House Rules */}
+            <Container fluid>
+                <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
+                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>House rules</h4>
+                    <p style={{ textAlign: 'left' }}>{propertyData.name} takes special requests - add in the next step!</p>
+                </div>
+                <Row style={{ marginLeft: '5%', marginRight: '5%' }} xs={1} md={1} className="g-1 justify-content-center">
+                    <Table bordered style={{ borderColor: '#DEDDDD' }}>
+                        <tbody>
+                            {houseRules.map((rule, index) => (
+                                <tr key={index}>
+                                    <td className="d-flex align-items-center">
+                                        {React.cloneElement(rule.icon, { style: { marginRight: '12px' } })}
+                                        <Typography variant="body1" style={{}}>{rule.name}</Typography>
+                                    </td>
+                                    <td style={{ textAlign: 'left' }}>
+                                        <Typography variant="body1">{rule.value}</Typography>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
                 </Row>
             </Container>
 

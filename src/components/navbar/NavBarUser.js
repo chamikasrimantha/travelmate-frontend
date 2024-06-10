@@ -20,7 +20,7 @@ export default function NavBarUser() {
     return (
         <Navbar expand="lg" style={{ backgroundColor: '#043E96', minHeight: '70px' }} variant="dark">
             <Container>
-                <Navbar.Brand href="" style={{ color: 'white', fontStyle: 'italic', fontWeight: 500 }}>
+                <Navbar.Brand href="" style={{ color: 'white', fontStyle: 'italic', fontWeight: 500, cursor: 'pointer' }}>
                     TravelMate.lk
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

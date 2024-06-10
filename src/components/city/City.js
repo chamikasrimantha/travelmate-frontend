@@ -227,7 +227,7 @@ export default function City() {
                             style={{
                                 backgroundColor: '#184D9D',
                                 color: 'white',
-                                borderRadius: '4px',
+                                borderRadius: '8px',
                                 padding: '8px 12px',
                                 border: 'none',
                                 cursor: 'pointer'
@@ -276,6 +276,33 @@ export default function City() {
                         </Col>
                     ))}
                 </Row>
+            </Container>
+
+            {/* AI */}
+            <Container fluid>
+                <div className="d-flex justify-content-between align-items-center mt-4" style={{ marginLeft: '5%', marginRight: '5%' }}>
+                    <div>
+                        <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Travelers are asking</h4>
+                    </div>
+                    <div>
+                        <Button
+                            style={{
+                                backgroundColor: '#184D9D',
+                                color: 'white',
+                                borderRadius: '8px',
+                                padding: '8px 12px',
+                                border: 'none',
+                                cursor: 'pointer'
+                            }}
+                            onClick={handleClickOpen}
+                        >
+                            Ask TravelMate AI
+                        </Button>
+                    </div>
+                </div>
+                <div style={{ marginTop: '7px', textAlign: 'left', display: 'flex', alignItems: 'center', marginLeft: '5%' }}>
+                    <span>Having any issue about travelling here? Ask TravelMate AI now, It's free!</span>
+                </div>
             </Container>
 
         </div>
