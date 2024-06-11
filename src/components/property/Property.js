@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormControl, Table } from 'react-bootstrap';
-import { Box, Typography, Rating, Button, useMediaQuery, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Box, Typography, Rating, Button, useMediaQuery, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
@@ -24,9 +24,25 @@ import GroupIcon from '@mui/icons-material/Group';
 import LocalBarIcon from '@mui/icons-material/LocalBar';
 import PaymentIcon from '@mui/icons-material/Payment';
 
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import RateCard from '../rate/RateCard';
+import { useNavigate } from 'react-router-dom';
 
 export default function Property() {
+
+    const [checkinDate, setCheckinDate] = useState(null);
+    const [checkoutDate, setCheckoutDate] = useState(null);
+    const navigate = useNavigate();
+
+    const handleBooking = () => {
+        // Save dates to localStorage or state management solution
+        localStorage.setItem('checkinDate', checkinDate);
+        localStorage.setItem('checkoutDate', checkoutDate);
+        // Navigate to the booking page
+        navigate('/booking');
+    };
 
     const rateData = [
         {
@@ -303,10 +319,43 @@ export default function Property() {
             <Container fluid>
                 <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
                     <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Availability</h4>
-                    <p style={{ textAlign: 'left' }}> Select dates to see this property's availability and prices</p>
+                    <p style={{ textAlign: 'left' }}>Select dates to see this property's availability and prices</p>
                 </div>
                 <Row style={{ marginLeft: '5%', marginRight: '5%' }} xs={1} md={1} className="g-1 justify-content-center">
-
+                    <Col className="d-flex flex-column flex-md-row align-items-center mb-2">
+                        <div className="d-flex align-items-center" style={{ marginBottom: '10px', marginRight: '15px' }}>
+                            <label style={{ marginRight: '10px' }}>Check-in Date:</label>
+                            <DatePicker
+                                selected={checkinDate}
+                                onChange={(date) => setCheckinDate(date)}
+                                dateFormat="MM/dd/yyyy"
+                                className="form-control"
+                            />
+                        </div>
+                        <div className="d-flex align-items-center" style={{ marginBottom: '10px', marginRight: '20px' }}>
+                            <label style={{ marginRight: '10px' }}>Check-out Date:</label>
+                            <DatePicker
+                                selected={checkoutDate}
+                                onChange={(date) => setCheckoutDate(date)}
+                                dateFormat="MM/dd/yyyy"
+                                className="form-control"
+                            />
+                        </div>
+                        <div className="d-flex align-items-center" style={{ marginBottom: '10px', marginRight: '10px' }}>
+                            <Button
+                                variant="primary"
+                                onClick={handleBooking}
+                                className="mt-md-0 mt-2"
+                                disabled={!checkinDate || !checkoutDate}
+                                style={{
+                                    backgroundColor: checkinDate && checkoutDate ? '#184D9D' : 'transparent',
+                                    color: checkinDate && checkoutDate ? 'white' : 'black',
+                                    border: !checkinDate || !checkoutDate ? '1px solid black' : 'none'
+                                }}
+                            >
+                                Check Availability
+                            </Button></div>
+                    </Col>
                 </Row>
             </Container>
 
