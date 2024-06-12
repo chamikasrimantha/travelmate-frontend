@@ -41,7 +41,7 @@ export default function Property() {
         localStorage.setItem('checkinDate', checkinDate);
         localStorage.setItem('checkoutDate', checkoutDate);
         // Navigate to the booking page
-        navigate('/booking');
+        navigate('/book');
     };
 
     const rateData = [
@@ -78,7 +78,7 @@ export default function Property() {
         longitude: '79.8612',
         email: 'luxury@gmail.com',
         hotline: '+94 76 163 5652',
-        price: 'Rs. 12,000/-',
+        price: 12000,
         // services
         airconditioning: true,
         heating: false,

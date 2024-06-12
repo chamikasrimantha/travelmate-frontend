@@ -5,6 +5,7 @@ import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
 import { Rating, Typography, Box, useMediaQuery } from '@mui/material';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import LockIcon from '@mui/icons-material/Lock';
+import { useNavigate } from 'react-router-dom';
 
 const propertyData = {
     name: 'Luxury Hotel',
@@ -24,13 +25,19 @@ const getRatingLabel = (rate) => {
     return 'Wonderful';
 };
 
-export default function Booking() {
+export default function BookingForm() {
     const [step, setStep] = useState(1); // Step 1: Your Selection, Step 2: Enter Your Details, Step 3: Confirm Your Reservation
     const [confirmed, setConfirmed] = useState(false); // To track if the booking is confirmed
     const checkinDate = localStorage.getItem('checkinDate') || propertyData.checkinDate;
     const checkoutDate = localStorage.getItem('checkoutDate') || propertyData.checkoutDate;
 
     const isMobile = useMediaQuery('(max-width: 600px)');
+
+    const navigate = useNavigate();
+
+    const Bookings = () => {
+        navigate('/bookings');
+    }
 
     const handleNextStep = () => {
         if (step < 3) {
@@ -361,17 +368,20 @@ export default function Booking() {
                                 <Col md={6} className="mb-1" style={{ width: isMobile ? '100%' : '70%' }}>
                                     <div style={squareStyle}>
                                         <h4 style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>Now what?</h4>
-                                        <p>You can download the confirmation receipt by clicking the View Receipt.</p>
+                                        <p>You can download the receipt by clicking the View Receipt.</p>
                                         <p>You can make the payment directly to the property on checkin day by cash or also you can make the payment now via online using credit/ debit card.</p>
                                     </div>
                                 </Col>
                                 <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '70%' }}>
                                     <div style={squareStyle}>
+                                        <Button variant="secondary" style={{ marginRight: '20px' }} onClick={Bookings}>
+                                            Go to Bookings
+                                        </Button>
                                         <Button variant="primary" style={{ marginRight: '20px' }} onClick={handleConfirm}>
                                             <CreditCardIcon style={{ marginRight: '5px' }} /> Pay now
                                         </Button>
                                         <Button variant="primary" onClick={handleConfirm}>
-                                            <LockIcon style={{ marginRight: '5px' }} /> View Receipt
+                                            View Receipt
                                         </Button>
                                     </div>
                                 </Col>
