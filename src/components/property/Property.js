@@ -315,6 +315,16 @@ export default function Property() {
                 </Row>
             </Container>
 
+            {/* Price Section */}
+            <Container fluid>
+                <div className="d-flex justify-content-between align-items-center mt-4" style={{ marginLeft: '5%', marginRight: '5%' }}>
+                    <div>
+                        <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Price and contact Details</h4>
+                        <p style={{ textAlign: 'left', fontSize: '1rem' }}>Price per day: {propertyData.price} LKR | Email: {propertyData.email} | Hotline: {propertyData.hotline}</p>
+                    </div>
+                </div>
+            </Container>
+
             {/* Availability */}
             <Container fluid>
                 <div className="text-center mt-4" style={{ marginLeft: '5%' }}>

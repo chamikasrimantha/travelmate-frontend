@@ -1,10 +1,24 @@
-import React from 'react';
-import { Box, Typography, Button, Rating } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, Button, Rating, Dialog, DialogTitle, DialogContent } from '@mui/material';
 import { Card, CardContent, CardActions } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
+import { Link } from 'react-router-dom';
+import AddPropertyReview from '../rate/AddPropertyReview';
 
 export default function BookingCard({ booking }) {
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const {
+        id,
         propertyName,
         propertyLocation,
         propertyRate,
@@ -60,54 +74,64 @@ export default function BookingCard({ booking }) {
         display: 'flex',
         justifyContent: 'flex-start',
         marginTop: '5px',
-        flexDirection: isMobile ? 'column' : 'row',
     };
 
     return (
-        <Card style={cardStyle}>
-            <CardContent style={sectionStyle}>
-                <div style={leftSection}>
-                    <Typography variant="h4" style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
-                        {propertyName}
-                    </Typography>
-                    <Typography variant="body2" style={{ marginTop: '10px', fontSize: '1rem' }} color="textSecondary">
-                        {propertyLocation}
-                    </Typography>
-                    <div style={rateStyle}>
-                        <Box
-                            sx={{
-                                backgroundColor: '#184D9D',
-                                color: 'white',
-                                borderRadius: '4px',
-                                padding: '2px 6px',
-                                marginRight: '5px'
-                            }}
-                        >
-                            {propertyRate}
-                        </Box>
-                        <Rating name="read-only" value={propertyRate} readOnly />
+        <div>
+            <Card style={cardStyle}>
+                <CardContent style={sectionStyle}>
+                    <div style={leftSection}>
+                        <Typography variant="h4" style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
+                            {propertyName}
+                        </Typography>
+                        <Typography variant="body2" style={{ marginTop: '10px', fontSize: '1rem' }} color="textSecondary">
+                            {propertyLocation}
+                        </Typography>
+                        <div style={rateStyle}>
+                            <Box
+                                sx={{
+                                    backgroundColor: '#184D9D',
+                                    color: 'white',
+                                    borderRadius: '4px',
+                                    padding: '2px 6px',
+                                    marginRight: '5px'
+                                }}
+                            >
+                                {propertyRate}
+                            </Box>
+                            <Rating name="read-only" value={propertyRate} readOnly />
+                        </div>
                     </div>
-                </div>
-                <div style={rightSection}>
-                    <Typography variant="body2" style={{ fontSize: '1rem' }}>
-                        <b>Check-in: </b> {checkinDate}
-                    </Typography>
-                    <Typography style={{ marginTop: '13px', fontSize: '1rem' }} variant="body2">
-                        <b>Check-out: </b> {checkoutDate}
-                    </Typography>
-                    <Typography style={{ marginTop: '13px', fontSize: '1rem' }} variant="body2">
-                        <b>Total price: </b> {totalPrice} LKR
-                    </Typography>
-                </div>
-            </CardContent>
-            <CardActions style={buttonContainerStyle}>
-                <Button variant="contained" color="primary" size="small" style={{ marginBottom: isMobile ? '10px' : '0', marginRight: isMobile ? '0' : '10px' }}>
-                    View
-                </Button>
-                <Button variant="contained" color="secondary" size="small">
-                    Cancel
-                </Button>
-            </CardActions>
-        </Card>
+                    <div style={rightSection}>
+                        <Typography variant="body2" style={{ fontSize: '1rem' }}>
+                            <b>Check-in: </b> {checkinDate}
+                        </Typography>
+                        <Typography style={{ marginTop: '13px', fontSize: '1rem' }} variant="body2">
+                            <b>Check-out: </b> {checkoutDate}
+                        </Typography>
+                        <Typography style={{ marginTop: '13px', fontSize: '1rem' }} variant="body2">
+                            <b>Total price: </b> {totalPrice} LKR
+                        </Typography>
+                    </div>
+                </CardContent>
+                <CardActions style={buttonContainerStyle}>
+                    <Link to={`/booking/${id}`} style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" color="primary" size="small" style={{ marginRight: isMobile ? '0' : '10px' }}>
+                            View
+                        </Button>
+                    </Link>
+                    <Button onClick={handleClickOpen} variant="contained" color="secondary" size="small">
+                        Add review
+                    </Button>
+                </CardActions>
+            </Card>
+
+            <Dialog open={open} onClose={handleClose} fullWidth>
+                <DialogTitle>Add Review</DialogTitle>
+                <DialogContent>
+                    <AddPropertyReview userId={1} propertyId={1} handleClose={handleClose} />
+                </DialogContent>
+            </Dialog>
+        </div>
     );
 }

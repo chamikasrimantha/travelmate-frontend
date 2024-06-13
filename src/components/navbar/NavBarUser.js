@@ -39,7 +39,7 @@ export default function NavBarUser() {
         navigate('/signup');
     }
 
-    const isSignedIn = true; // check
+    const isSignedIn = false; // check
 
     return (
         <Navbar expand="lg" style={{ backgroundColor: '#043E96', minHeight: '70px' }} variant="dark">

@@ -30,6 +30,11 @@ export default function BookingForm() {
     const [confirmed, setConfirmed] = useState(false); // To track if the booking is confirmed
     const checkinDate = localStorage.getItem('checkinDate') || propertyData.checkinDate;
     const checkoutDate = localStorage.getItem('checkoutDate') || propertyData.checkoutDate;
+    const [paymentType, setPaymentType] = useState('cash'); // Default to 'cash'
+
+    const handlePaymentTypeChange = (event) => {
+        setPaymentType(event.target.value);
+    };
 
     const isMobile = useMediaQuery('(max-width: 600px)');
 
@@ -332,24 +337,35 @@ export default function BookingForm() {
                                     </div>
                                 </Col>
                                 <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '70%' }}>
-                                    <div style={squareStyle}>
-                                        <h4 style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>Payment Details</h4>
-                                        <p>Your payment can be made using credit/debit card. Alternatively, your payment can be handled by "{propertyData.name}". If so, you don't need to enter any payment details for this booking.</p>
-                                    </div>
-                                </Col>
-                                <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '70%' }}>
-                                    <div style={squareStyle}>
-                                        <Button variant="secondary" style={{ marginRight: '20px' }} onClick={handleBackStep}>
-                                            Back
-                                        </Button>
-                                        {/* <Button variant="primary" style={{ marginRight: '20px' }} onClick={handleConfirm}>
-                                            <CreditCardIcon style={{ marginRight: '5px' }} /> Pay now
-                                        </Button> */}
-                                        <Button variant="primary" onClick={handleConfirm}>
-                                            <LockIcon style={{ marginRight: '5px' }} /> Complete booking
-                                        </Button>
-                                    </div>
-                                </Col>
+                        <div style={squareStyle}>
+                            <h4 style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>Payment Details</h4>
+                            <p>Your payment can be made using credit/debit card right now. Or, your payment can be handled by "{propertyData.name}". If so, you don't need to enter any payment details for this booking.</p>
+                            <div>
+                                <label htmlFor="paymentType" style={{ display: 'block', marginBottom: '10px' }}>Select Payment Type</label>
+                                <select id="paymentType" value={paymentType} onChange={handlePaymentTypeChange} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}>
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Card</option>
+                                </select>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '70%' }}>
+                        <div style={squareStyle}>
+                            <Button variant="secondary" style={{ marginRight: '20px' }} onClick={handleBackStep}>
+                                Back
+                            </Button>
+                            {paymentType === 'card' && (
+                                <Button variant="primary" style={{ marginRight: '20px' }} onClick={handleConfirm}>
+                                    <CreditCardIcon style={{ marginRight: '5px' }} /> Pay now
+                                </Button>
+                            )}
+                            {paymentType === 'cash' && (
+                                <Button variant="primary" onClick={handleConfirm}>
+                                    <LockIcon style={{ marginRight: '5px' }} /> Complete booking
+                                </Button>
+                            )}
+                        </div>
+                    </Col>
                             </Row>
                         </Container>
                     </div>
@@ -377,9 +393,9 @@ export default function BookingForm() {
                                         <Button variant="secondary" style={{ marginRight: '20px' }} onClick={Bookings}>
                                             Go to Bookings
                                         </Button>
-                                        <Button variant="primary" style={{ marginRight: '20px' }} onClick={handleConfirm}>
+                                        {/* <Button variant="primary" style={{ marginRight: '20px' }} onClick={handleConfirm}>
                                             <CreditCardIcon style={{ marginRight: '5px' }} /> Pay now
-                                        </Button>
+                                        </Button> */}
                                         <Button variant="primary" onClick={handleConfirm}>
                                             View Receipt
                                         </Button>

@@ -13,6 +13,7 @@ import UserCities from './pages/user/user.city/UserCities';
 import UserProperties from './pages/user/user.property/UserProperties';
 import UserBookingForm from './pages/user/user.booking/UserBookingForm';
 import UserBookings from './pages/user/user.booking/UserBookings';
+import UserBooking from './pages/user/user.booking/UserBooking';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path='/properties' element={<UserProperties/>} />
           <Route path='/book' element={<UserBookingForm />} />
           <Route path='/bookings' element={<UserBookings />} />
+          <Route path='/booking/:id' element={<UserBooking />} />
 
           <Route path='/partner/signup' element={<PartnerSignUp/>} />
           <Route path='/partner/signin' element={<PartnerSignIn/>} />
