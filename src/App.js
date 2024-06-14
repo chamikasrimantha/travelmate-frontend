@@ -14,6 +14,7 @@ import UserProperties from './pages/user/user.property/UserProperties';
 import UserBookingForm from './pages/user/user.booking/UserBookingForm';
 import UserBookings from './pages/user/user.booking/UserBookings';
 import UserBooking from './pages/user/user.booking/UserBooking';
+import UserProfile from './pages/user/user.profile/UserProfile';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path='/book' element={<UserBookingForm />} />
           <Route path='/bookings' element={<UserBookings />} />
           <Route path='/booking/:id' element={<UserBooking />} />
+          <Route path='/profile' element={<UserProfile />} />
 
           <Route path='/partner/signup' element={<PartnerSignUp/>} />
           <Route path='/partner/signin' element={<PartnerSignIn/>} />

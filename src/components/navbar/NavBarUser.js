@@ -39,7 +39,11 @@ export default function NavBarUser() {
         navigate('/signup');
     }
 
-    const isSignedIn = false; // check
+    const gotoProfile = () => {
+        navigate('/profile');
+    }
+
+    const isSignedIn = true; // check
 
     return (
         <Navbar expand="lg" style={{ backgroundColor: '#043E96', minHeight: '70px' }} variant="dark">
@@ -69,8 +73,8 @@ export default function NavBarUser() {
                                     </Dropdown.Toggle>
                                 </OverlayTrigger>
                                 <Dropdown.Menu style={{ minWidth: '200px', right: 0, left: 'auto' }}>
-                                    <Dropdown.Item href="#profile-settings">My profile settings</Dropdown.Item>
-                                    <Dropdown.Item href="#logout">Logout</Dropdown.Item>
+                                    <Dropdown.Item onClick={gotoProfile} href="">My profile settings</Dropdown.Item>
+                                    <Dropdown.Item onClick={gotoSignIn} href="">Logout</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         ) : (
