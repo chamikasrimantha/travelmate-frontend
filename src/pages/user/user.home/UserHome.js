@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropertyCard from '../../../components/property/PropertyCard';
+import AdminAnnouncementCard from '../../../components/announcement/AdminAnnouncementCard';
 
 export default function UserHome() {
 
@@ -68,6 +69,24 @@ export default function UserHome() {
         }
     ];
 
+    const announcements = [
+        {
+            id: 1,
+            title: 'Maintenance Update',
+            message: 'The system will be down for maintenance on 2024-07-01 from 02:00 AM to 04:00 AM.',
+        },
+        {
+            id: 2,
+            title: 'New Feature Release',
+            message: 'We are excited to announce a new feature that will be available starting 2024-07-05.',
+        },
+        {
+            id: 2,
+            title: 'New Feature Release',
+            message: 'We are excited to announce a new feature that will be available starting 2024-07-05.',
+        },
+    ];
+
     return (
         <div>
             {/* navbar */}
@@ -84,8 +103,12 @@ export default function UserHome() {
                     <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Offers</h4>
                     <p style={{ textAlign: 'left' }}>Promotions, deals, and special offers for you</p>
                 </div>
-                <Row style={{ marginLeft: '0%' }} xs={1} md={3} className="g-1 justify-content-center">
-
+                <Row style={{ marginLeft: '2%', marginRight: '2%' }} xs={1} md={3} className="g-1 justify-content-center">
+                    {announcements.map((announcement, index) => (
+                        <Col key={index} className="d-flex justify-content-center">
+                            <AdminAnnouncementCard announcement={announcement} />
+                        </Col>
+                    ))}
                 </Row>
             </Container>
 

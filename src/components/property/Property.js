@@ -29,6 +29,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import RateCard from '../rate/RateCard';
 import { useNavigate } from 'react-router-dom';
+import PartnerAnnouncementCard from '../announcement/PartnerAnnouncementCard';
 
 export default function Property() {
 
@@ -101,6 +102,27 @@ export default function Property() {
         parties: true,
         paymentmethods: 'Visa, Cash',
     }
+
+    const announcements = [
+        {
+            id: 1,
+            title: 'Maintenance Notice',
+            message: 'The pool will be closed for maintenance on July 20th.',
+            propertyId: 101
+        },
+        {
+            id: 2,
+            title: 'Maintenance Notice',
+            message: 'The pool will be closed for maintenance on July 20th.',
+            propertyId: 101
+        },
+        {
+            id: 3,
+            title: 'Maintenance Notice',
+            message: 'The pool will be closed for maintenance on July 20th.',
+            propertyId: 101
+        },
+    ];
 
     const isMobile = useMediaQuery('(max-width: 600px)');
 
@@ -415,6 +437,20 @@ export default function Property() {
                             ))}
                         </tbody>
                     </Table>
+                </Row>
+            </Container>
+
+            <Container fluid>
+                <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
+                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Announcements</h4>
+                    <p style={{ textAlign: 'left' }}>Special announcements</p>
+                </div>
+                <Row style={{ marginLeft: '02%', marginRight: '02%', marginTop: '10px' }} xs={1} md={3} className="g-1 justify-content-center">
+                    {announcements.map((announcement, index) => (
+                        <Col key={index} className="d-flex justify-content-center">
+                            <PartnerAnnouncementCard announcement={announcement} />
+                        </Col>
+                    ))}
                 </Row>
             </Container>
 
