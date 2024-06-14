@@ -1,19 +1,44 @@
-import { useMediaQuery } from '@mui/material';
 import React, { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { useMediaQuery, TextField } from '@mui/material';
 
-// Define components for each section
 const PersonalDetails = () => {
 
     const isMobile = useMediaQuery('(max-width: 600px)');
+    const [isEditing, setIsEditing] = useState(false);
+    const [personalDetails, setPersonalDetails] = useState({
+        firstName: 'Chamika',
+        lastName: 'Srimantha',
+        username: 'chamikasrimantha',
+        email: 'chamikasrimantha@gmail.com',
+        address: '123 Main St',
+        phoneNumber: '+94 76 672 7852',
+    });
 
     const squareStyle = {
         backgroundColor: 'white',
         border: '1px solid #DEDCDD',
         borderRadius: '8px',
         padding: '20px',
-        marginBottom: '02px',
+        marginBottom: '20px',
         textAlign: 'left',
+    };
+
+    const handleUpdateClick = () => {
+        setIsEditing(true);
+    };
+
+    const handleSaveClick = () => {
+        // Perform save operation here (e.g., send data to backend)
+        setIsEditing(false);
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setPersonalDetails((prevDetails) => ({
+            ...prevDetails,
+            [name]: value,
+        }));
     };
 
     return (
@@ -24,20 +49,87 @@ const PersonalDetails = () => {
                     <p style={{ textAlign: 'left' }}>Update your information and find out how it's used.</p>
                 </div>
                 <Row className="justify-content-center">
-                    <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '90%' }}>
+                    <Col md={6} className="mb-0" style={{ width: isMobile ? '100%' : '90%' }}>
                         <div style={squareStyle}>
-                            <p>Name: </p>
-                            <p>Username: </p>
-                            <p>Email: </p>
-                            <p>Address: </p>
-                            <p>Phone Number: </p>
+                            {isEditing ? (
+                                <div>
+                                    <Row>
+                                        <Col>
+                                            <TextField
+                                                fullWidth
+                                                label="First Name"
+                                                name="firstName"
+                                                value={personalDetails.firstName}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                            />
+                                        </Col>
+                                        <Col>
+                                            <TextField
+                                                fullWidth
+                                                label="Last Name"
+                                                name="lastName"
+                                                value={personalDetails.lastName}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                            />
+                                        </Col>
+                                    </Row>
+                                    <TextField
+                                        fullWidth
+                                        label="Username"
+                                        name="username"
+                                        value={personalDetails.username}
+                                        margin="normal"
+                                        disabled
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        label="Email"
+                                        name="email"
+                                        value={personalDetails.email}
+                                        onChange={handleChange}
+                                        margin="normal"
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        label="Address"
+                                        name="address"
+                                        value={personalDetails.address}
+                                        onChange={handleChange}
+                                        margin="normal"
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        label="Phone Number"
+                                        name="phoneNumber"
+                                        value={personalDetails.phoneNumber}
+                                        onChange={handleChange}
+                                        margin="normal"
+                                    />
+                                </div>
+                            ) : (
+                                <div>
+                                    <p>Name: {personalDetails.firstName} {personalDetails.lastName}</p>
+                                    <p>Username: {personalDetails.username}</p>
+                                    <p>Email: {personalDetails.email}</p>
+                                    <p>Address: {personalDetails.address}</p>
+                                    <p>Phone Number: {personalDetails.phoneNumber}</p>
+                                </div>
+                            )}
                         </div>
                     </Col>
                     <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '90%' }}>
                         <div style={squareStyle}>
-                            <Button variant="primary" >
-                                Update
-                            </Button>
+                            {isEditing ? (
+                                <Button variant="primary" onClick={handleSaveClick}>
+                                    Save
+                                </Button>
+                            ) : (
+                                <Button variant="primary" onClick={handleUpdateClick}>
+                                    Update
+                                </Button>
+                            )}
                         </div>
                     </Col>
                 </Row>
@@ -46,17 +138,141 @@ const PersonalDetails = () => {
     );
 };
 
-const Security = () => <div>Security Section</div>;
-const Privacy = () => <div>Privacy Section</div>;
-const DeleteAccount = () => <div>Delete Account Section</div>;
-const Logout = () => <div>Logout Section</div>;
+const Security = () => {
+
+    const isMobile = useMediaQuery('(max-width: 600px)');
+
+    const squareStyle = {
+        backgroundColor: 'white',
+        border: '1px solid #DEDCDD',
+        borderRadius: '8px',
+        padding: '20px',
+        marginBottom: '20px',
+        textAlign: 'left',
+    };
+
+    return (
+        <div>
+            <Container fluid>
+                <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
+                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Security</h4>
+                    <p style={{ textAlign: 'left' }}>Update your information and find out how it's used.</p>
+                </div>
+                <Row className="justify-content-center">
+                    <Col md={6} className="mb-0" style={{ width: isMobile ? '100%' : '90%' }}>
+                        <div style={squareStyle}>
+
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
+    );
+};
+
+const Privacy = () => {
+
+    const isMobile = useMediaQuery('(max-width: 600px)');
+
+    const squareStyle = {
+        backgroundColor: 'white',
+        border: '1px solid #DEDCDD',
+        borderRadius: '8px',
+        padding: '20px',
+        marginBottom: '20px',
+        textAlign: 'left',
+    };
+
+    return (
+        <div>
+            <Container fluid>
+                <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
+                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Privacy</h4>
+                    <p style={{ textAlign: 'left' }}>Update your information and find out how it's used.</p>
+                </div>
+                <Row className="justify-content-center">
+                    <Col md={6} className="mb-0" style={{ width: isMobile ? '100%' : '90%' }}>
+                        <div style={squareStyle}>
+
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
+    );
+};
+
+const DeleteAccount = () => {
+
+    const isMobile = useMediaQuery('(max-width: 600px)');
+
+    const squareStyle = {
+        backgroundColor: 'white',
+        border: '1px solid #DEDCDD',
+        borderRadius: '8px',
+        padding: '20px',
+        marginBottom: '20px',
+        textAlign: 'left',
+    };
+
+    return (
+        <div>
+            <Container fluid>
+                <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
+                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Delete account</h4>
+                    <p style={{ textAlign: 'left' }}>Update your information and find out how it's used.</p>
+                </div>
+                <Row className="justify-content-center">
+                    <Col md={6} className="mb-0" style={{ width: isMobile ? '100%' : '90%' }}>
+                        <div style={squareStyle}>
+
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
+    );
+};
+
+const Logout = () => {
+
+    const isMobile = useMediaQuery('(max-width: 600px)');
+
+    const squareStyle = {
+        backgroundColor: 'white',
+        border: '1px solid #DEDCDD',
+        borderRadius: '8px',
+        padding: '20px',
+        marginBottom: '20px',
+        textAlign: 'left',
+    };
+
+    return (
+        <div>
+            <Container fluid>
+                <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
+                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Logout</h4>
+                    <p style={{ textAlign: 'left' }}>Update your information and find out how it's used.</p>
+                </div>
+                <Row className="justify-content-center">
+                    <Col md={6} className="mb-0" style={{ width: isMobile ? '100%' : '90%' }}>
+                        <div style={squareStyle}>
+
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
+    );
+};
 
 const UserProfileCard = () => {
+
     const [activeSection, setActiveSection] = useState('personal-details');
 
     const buttonStyle = {
         marginTop: '10px',
-        fontWeight: 'bold', 
+        fontWeight: 'bold',
         fontSize: '1rem',
         backgroundColor: 'white',
         border: '1px solid #DEDDDD',
