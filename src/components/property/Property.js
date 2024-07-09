@@ -181,7 +181,7 @@ export default function Property() {
                         </Col>
                         <Col xs={6} style={{ textAlign: 'right', paddingRight: '6%', marginTop: '25px' }}>
                             <Form inline>
-                                <FormControl type="text" placeholder="Search for more cities" className="mr-sm-2" style={{ borderRadius: '20px' }} />
+                                <FormControl type="text" placeholder="Search for more properties" className="mr-sm-2" style={{ borderRadius: '20px' }} />
                             </Form>
                         </Col>
                     </Row>
