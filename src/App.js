@@ -18,6 +18,7 @@ import UserProfile from './pages/user/user.profile/UserProfile';
 import PartnerDashboard from './pages/partner/partner.dashboard/PartnerDashboard';
 import PartnerProperties from './pages/partner/partner.properties/PartnerProperties';
 import PartnerAddNewProperty from './pages/partner/partner.properties/PartnerAddNewProperty';
+import PartnerAnnouncements from './pages/partner/partner.announcements/PartnerAnnouncements';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path='/partner/dashboard' element={<PartnerDashboard/>} />
           <Route path='/partner/properties' element={<PartnerProperties/>} />
           <Route path='/partner/add-new-property' element={<PartnerAddNewProperty/>} />
+          <Route path='/partner/announcements' element={<PartnerAnnouncements/>} />
 
           <Route path='/admin/signin' element={<AdminSignIn/>} />
 
