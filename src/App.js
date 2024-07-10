@@ -16,6 +16,8 @@ import UserBookings from './pages/user/user.booking/UserBookings';
 import UserBooking from './pages/user/user.booking/UserBooking';
 import UserProfile from './pages/user/user.profile/UserProfile';
 import PartnerDashboard from './pages/partner/partner.dashboard/PartnerDashboard';
+import PartnerProperties from './pages/partner/partner.properties/PartnerProperties';
+import PartnerAddNewProperty from './pages/partner/partner.properties/PartnerAddNewProperty';
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
           <Route path='/partner/signin' element={<PartnerSignIn/>} />
 
           <Route path='/partner/dashboard' element={<PartnerDashboard/>} />
+          <Route path='/partner/properties' element={<PartnerProperties/>} />
+          <Route path='/partner/add-new-property' element={<PartnerAddNewProperty/>} />
 
           <Route path='/admin/signin' element={<AdminSignIn/>} />
 

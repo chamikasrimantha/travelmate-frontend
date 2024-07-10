@@ -3,7 +3,7 @@ import { Box, Typography, Button, Rating } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
-export default function PropertyCard({ property }) {
+export default function PropertyCardPartner({ property }) {
     const { id, image, name, rate, district, city, location, description } = property;
 
     // Function to get the rating label
@@ -63,9 +63,12 @@ export default function PropertyCard({ property }) {
                     </Typography>
                     <Link to={`/property/${id}`} style={{ textDecoration: 'none' }}>
                         <Button variant="contained" color="primary" size="small" sx={{ backgroundColor: '#184D9D', marginTop: { xs: '8px', md: '0' } }}>
-                            Show Prices
+                            View
                         </Button>
                     </Link>
+                    <Button variant="contained" color="primary" size="small" sx={{ backgroundColor: '#184D9D', marginTop: { xs: '8px', md: '0' } }}>
+                        Manage
+                    </Button>
                 </div>
                 <Typography className="mt-2 d-flex align-items-center justify-content-between" variant="body2" color="textSecondary">
                     {location}
