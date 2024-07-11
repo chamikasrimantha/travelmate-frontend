@@ -19,6 +19,8 @@ import PartnerDashboard from './pages/partner/partner.dashboard/PartnerDashboard
 import PartnerProperties from './pages/partner/partner.properties/PartnerProperties';
 import PartnerAddNewProperty from './pages/partner/partner.properties/PartnerAddNewProperty';
 import PartnerAnnouncements from './pages/partner/partner.announcements/PartnerAnnouncements';
+import PartnerBookings from './pages/partner/partner.bookings/PartnerBookings';
+import PartnerProfile from './pages/partner/partner.profile/PartnerProfile';
 
 function App() {
   return (
@@ -26,28 +28,30 @@ function App() {
       <BrowserRouter>
         <Routes>
 
-          <Route path='/signup' element={<UserSignUp/>} />
-          <Route path='/signin' element={<UserSignIn/>} />
+          <Route path='/signup' element={<UserSignUp />} />
+          <Route path='/signin' element={<UserSignIn />} />
 
-          <Route path='/' element={<UserHome/>} />
-          <Route path='/city/:id' element={<UserCity/>} />
-          <Route path='/cities' element={<UserCities/>} />
-          <Route path='/property/:id' element={<UserProperty/>} />
-          <Route path='/properties' element={<UserProperties/>} />
+          <Route path='/' element={<UserHome />} />
+          <Route path='/city/:id' element={<UserCity />} />
+          <Route path='/cities' element={<UserCities />} />
+          <Route path='/property/:id' element={<UserProperty />} />
+          <Route path='/properties' element={<UserProperties />} />
           <Route path='/book' element={<UserBookingForm />} />
           <Route path='/bookings' element={<UserBookings />} />
           <Route path='/booking/:id' element={<UserBooking />} />
           <Route path='/profile' element={<UserProfile />} />
 
-          <Route path='/partner/signup' element={<PartnerSignUp/>} />
-          <Route path='/partner/signin' element={<PartnerSignIn/>} />
+          <Route path='/partner/signup' element={<PartnerSignUp />} />
+          <Route path='/partner/signin' element={<PartnerSignIn />} />
 
-          <Route path='/partner/dashboard' element={<PartnerDashboard/>} />
-          <Route path='/partner/properties' element={<PartnerProperties/>} />
-          <Route path='/partner/add-new-property' element={<PartnerAddNewProperty/>} />
-          <Route path='/partner/announcements' element={<PartnerAnnouncements/>} />
+          <Route path='/partner/dashboard' element={<PartnerDashboard />} />
+          <Route path='/partner/properties' element={<PartnerProperties />} />
+          <Route path='/partner/add-new-property' element={<PartnerAddNewProperty />} />
+          <Route path='/partner/announcements' element={<PartnerAnnouncements />} />
+          <Route path='/partner/bookings' element={<PartnerBookings />} />
+          <Route path='/partner/profile' element={<PartnerProfile />} />
 
-          <Route path='/admin/signin' element={<AdminSignIn/>} />
+          <Route path='/admin/signin' element={<AdminSignIn />} />
 
         </Routes>
       </BrowserRouter>
