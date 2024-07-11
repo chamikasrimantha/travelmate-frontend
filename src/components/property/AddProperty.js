@@ -120,7 +120,7 @@ export default function AddProperty() {
                             <Row className="justify-content-center">
                                 <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '70%' }}>
                                     <div style={squareStyle}>
-                                        {/* <h4 style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>Almost done! Just fill in the required info</h4> */}
+                                        {/* should take user id */}
                                         <TextField label="Property name" variant="outlined" className="mb-3" fullWidth />
                                         <TextField label="Property Email" variant="outlined" className="mb-3" fullWidth />
                                         <TextField label="Property Hotline" variant="outlined" className="mb-3" fullWidth />
