@@ -2,9 +2,10 @@ import { Box, Rating, Typography, useMediaQuery } from '@mui/material';
 import React, { useRef } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useReactToPrint } from 'react-to-print';
-import Receipt from './Receipt';  // Adjust the path as necessary
+import Receipt from './Receipt';
 
 export default function Booking() {
+    
     const booking = {
         id: 1,
         userId: 1,

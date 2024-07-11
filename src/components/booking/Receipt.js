@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Divider } from '@mui/material';
 
 const Receipt = React.forwardRef((props, ref) => {
+
     const { booking } = props;
 
     const receiptStyle = {
