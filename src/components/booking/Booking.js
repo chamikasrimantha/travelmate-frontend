@@ -1,9 +1,10 @@
 import { Box, Rating, Typography, useMediaQuery } from '@mui/material';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import { useReactToPrint } from 'react-to-print';
+import Receipt from './Receipt';  // Adjust the path as necessary
 
 export default function Booking() {
-
     const booking = {
         id: 1,
         userId: 1,
@@ -25,7 +26,7 @@ export default function Booking() {
         rentingAdditionals: 'Rent a car',
         specialRequests: 'No No No No No No No No No No No No No No No No No No No No No No No No',
         arrivalTime: '2:00 PM - 03:00 PM'
-    }
+    };
 
     const getRatingLabel = (rate) => {
         if (rate <= 2) return 'Low';
@@ -45,6 +46,12 @@ export default function Booking() {
         marginBottom: '02px',
         textAlign: 'left',
     };
+
+    const receiptRef = useRef();
+
+    const handlePrint = useReactToPrint({
+        content: () => receiptRef.current,
+    });
 
     return (
         <div className='mt-4'>
@@ -105,12 +112,15 @@ export default function Booking() {
                     </Col>
                     <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '70%' }}>
                         <div style={squareStyle}>
-                            <Button variant="primary" >
+                            <Button variant="primary" onClick={handlePrint}>
                                 View Receipt
                             </Button>
                         </div>
                     </Col>
                 </Row>
+                <div style={{ display: 'none' }}>
+                    <Receipt ref={receiptRef} booking={booking} />
+                </div>
             </Container>
         </div>
     )
