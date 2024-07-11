@@ -114,7 +114,7 @@ export default function BookingCardPartner({ booking }) {
                     </div> */}
                 </CardContent>
                 <CardActions style={buttonContainerStyle}>
-                    <Link to={`/partner/booking/${id}`} style={{ textDecoration: 'none' }}>
+                    <Link to={`/booking/${id}`} style={{ textDecoration: 'none' }}>
                         <Button variant="contained" color="primary" size="small">
                             View
                         </Button>
