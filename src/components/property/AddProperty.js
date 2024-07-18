@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { TextField, Checkbox, FormControlLabel, MenuItem } from '@mui/material';
 import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
@@ -6,12 +6,22 @@ import { Rating, Typography, Box, useMediaQuery } from '@mui/material';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate } from 'react-router-dom';
+import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
 
 export default function AddProperty() {
     const [step, setStep] = useState(1); // Step 1: Your Selection, Step 2: Enter Your Details, Step 3: Confirm Your Reservation
     const [confirmed, setConfirmed] = useState(false); // To track if the booking is confirmed
-
+    const inputRef = useRef();
     const isMobile = useMediaQuery('(max-width: 600px)');
+
+    const handlePlaceChanged = () => {
+        const [place] = inputRef.current.getPlaces();
+        if (place) {
+            console.log(place.formatted.address);
+            console.log(place.geometry.location.lat());
+            console.log(place.geometry.location.lng());
+        }
+    }
 
     const navigate = useNavigate();
 
@@ -157,7 +167,16 @@ export default function AddProperty() {
                                         >
                                             <MenuItem value="I don't know">I don't know</MenuItem>
                                         </TextField>
-                                        <TextField label="Set location" variant="outlined" className="mb-3" fullWidth />
+                                        <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY} libraries={['places']}>
+                                            <StandaloneSearchBox onLoad={ref => (inputRef.current = ref)} onPlacesChanged={handlePlaceChanged}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    className='mb-3'
+                                                    label="Enter location"
+                                                    fullWidth
+                                                />
+                                            </StandaloneSearchBox>
+                                        </LoadScript>
                                         <TextField label="About property in one sentence" variant="outlined" className="mb-3" fullWidth />
                                         <TextField name="description" label="Description" variant="outlined" className="mb-3" fullWidth multiline rows={4} />
                                         <input type="file" name="image" className="mb-3" />
@@ -267,12 +286,12 @@ export default function AddProperty() {
                                             <FormControlLabel
                                                 key={rule}
                                                 control={
-                                                    <Checkbox/>
+                                                    <Checkbox />
                                                 }
                                                 label={rule.charAt(0).toUpperCase() + rule.slice(1)}
                                             />
                                         ))}
-                                        <TextField name="paymentMethods" label="Payment Methods" variant="outlined" className="mb-3 mt-3" fullWidth  />
+                                        <TextField name="paymentMethods" label="Payment Methods" variant="outlined" className="mb-3 mt-3" fullWidth />
                                     </div>
                                 </Col>
                                 <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '70%' }}>
@@ -305,8 +324,8 @@ export default function AddProperty() {
                             <Row className="justify-content-center">
                                 <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '70%' }}>
                                     <div style={squareStyle}>
-                                        <TextField label="First name" variant="outlined" className="mb-3" fullWidth /> 
-                                        <TextField label="Last name" variant="outlined" className="mb-3" fullWidth />  
+                                        <TextField label="First name" variant="outlined" className="mb-3" fullWidth />
+                                        <TextField label="Last name" variant="outlined" className="mb-3" fullWidth />
                                         <TextField label="Business name" variant="outlined" className="mb-3" fullWidth />
                                         <TextField label="Living address" variant="outlined" className="mb-3" fullWidth />
                                         <TextField label="Phone number" variant="outlined" className="mb-3" fullWidth />
