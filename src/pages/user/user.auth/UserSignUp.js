@@ -1,15 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import NavBarAuth from '../../../components/navbar/NavBarAuth'
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
+import { createUser } from '../../../services/api/user.service'
 
 export default function UserSignUp() {
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [address, setAddress] = useState("");
 
   const navigate = useNavigate();
 
   const gotoSignIn = () => {
     navigate('/signin');
+  }
+
+  const register = async (event) => {
+    event.preventDefault();
+    const data = {
+      "firstName": firstName,
+      "lastName": lastName,
+      "username": username,
+      "email": email,
+      "password": password,
+      "phoneNo": phoneNo,
+      "address": address
+    }
+    const response = await createUser(data);
+    if (response.status === 200) {
+      gotoSignIn();
+    } else {
+      console.log("error");
+    }
   }
 
   return (
@@ -19,28 +47,28 @@ export default function UserSignUp() {
         <h2 className="fw-bold">Create an account</h2>
         <p>Create an account to explore travel destinations in Sri Lanka.</p>
 
-        <Form>
+        <Form onSubmit={register}>
           <Row className="mb-3">
             <Col>
-              <TextField id="formFirstName" label="First Name" variant="outlined" fullWidth size="small" />
+              <TextField value={firstName} onChange={(e) => setFirstName(e.target.value)} id="formFirstName" label="First Name" variant="outlined" fullWidth size="small" />
             </Col>
             <Col>
-              <TextField id="formLastName" label="Last Name" variant="outlined" fullWidth size="small" />
+              <TextField value={lastName} onChange={(e) => setLastName(e.target.value)} id="formLastName" label="Last Name" variant="outlined" fullWidth size="small" />
             </Col>
           </Row>
 
           <Row className="mb-3">
             <Col>
-              <TextField id="formUsername" label="Username" variant="outlined" fullWidth size="small" />
+              <TextField value={username} onChange={(e) => setUsername(e.target.value)} id="formUsername" label="Username" variant="outlined" fullWidth size="small" />
             </Col>
             <Col>
-              <TextField id="formEmail" label="Email Address" variant="outlined" fullWidth size="small" />
+              <TextField value={email} onChange={(e) => setEmail(e.target.value)} id="formEmail" label="Email Address" variant="outlined" fullWidth size="small" />
             </Col>
           </Row>
 
           <Row className="mb-3">
             <Col>
-              <TextField id="formPassword" label="Password" variant="outlined" type="password" fullWidth size="small" />
+              <TextField value={password} onChange={(e) => setPassword(e.target.value)} id="formPassword" label="Password" variant="outlined" type="password" fullWidth size="small" />
             </Col>
             <Col>
               <TextField id="formConfirmPassword" label="Confirm Password" variant="outlined" type="password" fullWidth size="small" />
@@ -49,10 +77,10 @@ export default function UserSignUp() {
 
           <Row className="mb-3">
             <Col>
-              <TextField id="formPhoneNumber" label="Phone Number" variant="outlined" fullWidth size="small" />
+              <TextField value={phoneNo} onChange={(e) => setPhoneNo(e.target.value)} id="formPhoneNumber" label="Phone Number" variant="outlined" fullWidth size="small" />
             </Col>
             <Col>
-              <TextField id="formAddress" label="Address" variant="outlined" fullWidth size="small" />
+              <TextField value={address} onChange={(e) => setAddress(e.target.value)} id="formAddress" label="Address" variant="outlined" fullWidth size="small" />
             </Col>
           </Row>
 
