@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBarAuth from '../../../components/navbar/NavBarAuth';
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
-import { createPartner } from '../../../services/api/user.service'
+import { partnerRegister } from '../../../services/api/user.service'
 
 export default function PartnerSignUp() {
 
@@ -32,7 +32,7 @@ export default function PartnerSignUp() {
             "phoneNo": phoneNo,
             "address": address
         }
-        const response = await createPartner(data);
+        const response = await partnerRegister(data);
         if (response.status === 200) {
             gotoSignIn();
         } else {

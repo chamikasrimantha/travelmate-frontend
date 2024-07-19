@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, FormControl } from 'react-bootstrap';
 import { Box, Typography, Rating, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from '../footer/Footer';
 import RateCard from '../rate/RateCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import AddCityReview from '../rate/AddCityReview';
 import PropertyCard from '../property/PropertyCard';
+import { getCityById } from '../../services/api/city.service';
+import { getCityRatingsByCity } from '../../services/api/city_rating.service';
+import { getPropertiesByCity } from '../../services/api/property.service';
 
 export default function City() {
 
-    const navigate = useNavigate();
+    // const [cityData, setCityData] = useState(null);
+    // const [rateData, setRateData] = useState([]);
+    // const [properties, setProperties] = useState([]);
+
+    // const { id } = useParams();
+    // const navigate = useNavigate();
 
     const [open, setOpen] = useState(false);
 
@@ -21,6 +29,25 @@ export default function City() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    // const fetchCityData = async () => {
+    //     try {
+    //         const cityResponse = await getCityById(id);
+    //         setCityData(cityResponse.data);
+
+    //         const ratingsResponse = await getCityRatingsByCity(id);
+    //         setRateData(ratingsResponse.data);
+
+    //         const propertiesResponse = await getPropertiesByCity(id);
+    //         setProperties(propertiesResponse.data);
+    //     } catch (error) {
+    //         console.error("Failed to fetch city data", error);
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     fetchCityData();
+    // }, []);
 
     // Sample data
     const cityData = {
@@ -101,7 +128,7 @@ export default function City() {
                                 {cityData.name}
                             </Typography>
                             <Typography variant="subtitle1" style={{ color: 'white', fontStyle: 'italic' }}>
-                                | {cityData.district}
+                                | {cityData?.districtEntity?.name}
                             </Typography>
                         </Col>
                         <Col xs={6} style={{ textAlign: 'right', paddingRight: '6%', marginTop: '25px' }}>

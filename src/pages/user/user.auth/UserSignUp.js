@@ -3,7 +3,7 @@ import NavBarAuth from '../../../components/navbar/NavBarAuth'
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
-import { createUser } from '../../../services/api/user.service'
+import { userRegister } from '../../../services/api/user.service'
 
 export default function UserSignUp() {
 
@@ -32,7 +32,7 @@ export default function UserSignUp() {
       "phoneNo": phoneNo,
       "address": address
     }
-    const response = await createUser(data);
+    const response = await userRegister(data);
     if (response.status === 200) {
       gotoSignIn();
     } else {
