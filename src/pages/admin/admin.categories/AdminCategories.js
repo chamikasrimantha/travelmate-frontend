@@ -1,40 +1,49 @@
-import React, { useState } from 'react';
-import NavBarPartner from '../../../components/navbar/NavBarPartner';
+import React, { useEffect, useState } from 'react';
 import Footer from '../../../components/footer/Footer';
 import { Col, Container, Row } from 'react-bootstrap';
-import { ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useNavigate } from 'react-router-dom';
-import PartnerAnnouncementCard from '../../../components/announcement/PartnerAnnouncementCard';
 import NavBarAdmin from '../../../components/navbar/NavBarAdmin';
 import CategoryCard from '../../../components/category/CategoryCard';
+import { getAllCategories, createCategory } from '../../../services/api/category.service';
 
 export default function AdminCategories() {
 
-    const categories = [
-        {
-            id: 1,
-            name: 'Hotel'
-        },
-        {
-            id: 2,
-            name: 'Villa'
-        },
-        {
-            id: 3,
-            name: 'Home'
-        },
-        {
-            id: 4,
-            name: 'Tree'
-        },
-        {
-            id: 5,
-            name: 'Hotel'
-        },
-    ];
+    const [categories, setCategories] = useState([]);
 
-    const navigate = useNavigate();
+    const fetchAllCategories = async () => {
+        const response = await getAllCategories();
+        setCategories(response.data);
+        console.log(response);
+    }
+
+    useEffect(() => {
+        fetchAllCategories();
+    }, []);
+
+    // const categories = [
+    //     {
+    //         id: 1,
+    //         name: 'Hotel'
+    //     },
+    //     {
+    //         id: 2,
+    //         name: 'Villa'
+    //     },
+    //     {
+    //         id: 3,
+    //         name: 'Home'
+    //     },
+    //     {
+    //         id: 4,
+    //         name: 'Tree'
+    //     },
+    //     {
+    //         id: 5,
+    //         name: 'Hotel'
+    //     },
+    // ];
 
     const [open, setOpen] = useState(false);
     const [newCategory, setNewCategory] = useState({
@@ -56,10 +65,19 @@ export default function AdminCategories() {
         });
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async (event) => {
         // Handle the form submission logic here
         console.log(newCategory);
-        handleClose();
+        event.preventDefault();
+        const data = {
+            name: newCategory.name
+        };
+        const response = await createCategory(data);
+        if (response.status === 200) {
+            handleClose();
+        } else {
+            handleClose();
+        }
     };
 
     return (
