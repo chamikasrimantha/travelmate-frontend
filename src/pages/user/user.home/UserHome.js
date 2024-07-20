@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import NavBarUser from '../../../components/navbar/NavBarUser';
 import Footer from '../../../components/footer/Footer';
 import UserHomeHeader from '../../../components/header/UserHomeHeader';
@@ -13,38 +13,94 @@ import AdminAnnouncementCard from '../../../components/announcement/AdminAnnounc
 export default function UserHome() {
 
     // Sample data
-    const cities = [
+    const rates = [
         {
             id: '1',
-            image: 'https://via.placeholder.com/300', // Sample image URL
-            name: 'Colombo',
-            rate: 4.4,
-            postCode: '12500',
-            latitude: '8.5333',
-            longitude: '80.4833',
-            district: 'Colombo District'
+            rate: 4.3,
+            comment: 'good',
+            userId: 1,
+            cityId: '2'
         },
         {
             id: '2',
-            image: 'https://via.placeholder.com/300',
-            name: 'Galle',
-            rate: 4.2,
-            postCode: '12500',
-            latitude: '8.5333',
-            longitude: '80.4833',
-            district: 'Galle District'
+            rate: 4.1,
+            comment: 'good',
+            userId: 1,
+            cityId: '2'
         },
         {
             id: '3',
-            image: 'https://via.placeholder.com/300',
-            name: 'Jaffna',
-            rate: 3.8,
+            rate: 4.6,
+            comment: 'good',
+            userId: 1,
+            cityId: '1'
+        },
+        {
+            id: '4',
+            rate: 4.8,
+            comment: 'good',
+            userId: 1,
+            cityId: '3'
+        },
+        {
+            id: '5',
+            rate: 4.9,
+            comment: 'good',
+            userId: 1,
+            cityId: '2'
+        },
+    ]
+
+    const cities = [
+        {
+            id: '1',
+            name: 'Colombo',
             postCode: '12500',
             latitude: '8.5333',
             longitude: '80.4833',
-            district: 'Jaffna District'
+            districtId: '1'
+        },
+        {
+            id: '2',
+            name: 'Galle',
+            postCode: '12500',
+            latitude: '8.5333',
+            longitude: '80.4833',
+            districtId: '2'
+        },
+        {
+            id: '3',
+            name: 'Jaffna',
+            postCode: '12500',
+            latitude: '8.5333',
+            longitude: '80.4833',
+            districtId: '3'
         }
     ];
+
+    const districts = [
+        { id: '1', name: 'Colombo District' },
+        { id: '2', name: 'Galle District' },
+        { id: '3', name: 'Jaffna District' }
+    ];
+
+    const defaultImage = 'https://via.placeholder.com/300'; // Sample image URL
+
+    const citiesWithRates = useMemo(() => {
+        return cities.map(city => {
+            const cityRates = rates.filter(rate => rate.cityId === city.id);
+            const averageRate = cityRates.length > 0
+                ? cityRates.reduce((sum, rate) => sum + rate.rate, 0) / cityRates.length
+                : 0;
+            const district = districts.find(d => d.id === city.districtId);
+            return {
+                ...city,
+                rate: averageRate,
+                districtName: district ? district.name : 'Unknown',
+                image: defaultImage
+            };
+        });
+    }, [cities, rates, districts]);
 
     const properties = [
         {
@@ -119,7 +175,7 @@ export default function UserHome() {
                     <p style={{ textAlign: 'left' }}>Most popular choices for travelers from Sri Lanka</p>
                 </div>
                 <Row style={{ marginLeft: '1%', marginRight: '1%' }} xs={1} md={3} className="g-1 justify-content-center">
-                    {cities.map((city, index) => (
+                    {citiesWithRates.map((city, index) => (
                         <Col key={index} className="d-flex justify-content-center">
                             <CityCard city={city} />
                         </Col>

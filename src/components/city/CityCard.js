@@ -1,15 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import { Link } from 'react-router-dom';
 import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function CityCard({ city }) {
-    const { id, image, name, rate, district } = city;
+    const { id, image, name, rate } = city;
 
     // Function to get the rating label
     const getRatingLabel = (rate) => {
@@ -36,21 +35,25 @@ export default function CityCard({ city }) {
                             {name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {district}
+                            {city?.districtEntity?.name}
                         </Typography>
                         <Box display="flex" alignItems="center">
-                            <Rating style={{ marginLeft: "-4px" }} name="read-only" value={rate} readOnly />
+                            <Rating style={{ marginLeft: "-4px" }} name="read-only" value={rate || 0} readOnly />
                         </Box>
                         <Box display="flex" alignItems="center">
                             <Typography variant="body1" style={{ marginRight: '3px', color: 'black' }}>
-                                {rate}
+                                {rate ? rate.toFixed(1) : 'N/A'}
                             </Typography>
-                            <Typography variant="body1" style={{ marginRight: '5px', color: 'black' }}>
-                                /
-                            </Typography>
-                            <Typography variant="body1" style={{color: 'black'}}>
-                                {getRatingLabel(rate)}
-                            </Typography>
+                            {rate ? (
+                                <>
+                                    <Typography variant="body1" style={{ marginRight: '5px', color: 'black' }}>
+                                        /
+                                    </Typography>
+                                    <Typography variant="body1" style={{ color: 'black' }}>
+                                        {getRatingLabel(rate)}
+                                    </Typography>
+                                </>
+                            ) : ''}
                         </Box>
                     </Box>
                 </CardContent>
