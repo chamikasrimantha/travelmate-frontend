@@ -1,41 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBarAdmin from '../../../components/navbar/NavBarAdmin';
 import Footer from '../../../components/footer/Footer';
 import { Table, Container } from 'react-bootstrap';
+import { getAllUsers, getAllPartners } from '../../../services/api/user.service';
 
 export default function AdminUsers() {
-  const users = [
-    {
-      id: 1,
-      username: 'johndoe',
-      email: 'johndoe@example.com',
-      role: 'user',
-      firstName: 'John',
-      lastName: 'Doe',
-      phoneNo: '1234567890',
-    },
-    {
-      id: 3,
-      username: 'bobsmith',
-      email: 'bobsmith@example.com',
-      role: 'user',
-      firstName: 'Bob',
-      lastName: 'Smith',
-      phoneNo: '1122334455',
-    },
-  ];
 
-  const partners = [
-    {
-      id: 2,
-      username: 'janedoe',
-      email: 'janedoe@example.com',
-      role: 'partner',
-      firstName: 'Jane',
-      lastName: 'Doe',
-      phoneNo: '0987654321',
-    },
-  ];
+  const [users, setUsers] = useState([]);
+  const [partners, setPartners] = useState([]);
+
+  const fetchAllUsers = async () => {
+    const response = await getAllUsers();
+    setUsers(response.data);
+    console.log(response);
+  }
+
+  const fetchAllPartners = async () => {
+    const response = await getAllPartners();
+    setPartners(response.data);
+    console.log(response);
+  }
+
+  useEffect(() => {
+    fetchAllUsers();
+    fetchAllPartners();
+  }, []);
+
+  // const users = [
+  //   {
+  //     id: 1,
+  //     username: 'johndoe',
+  //     email: 'johndoe@example.com',
+  //     role: 'user',
+  //     firstName: 'John',
+  //     lastName: 'Doe',
+  //     phoneNo: '1234567890',
+  //   },
+  //   {
+  //     id: 3,
+  //     username: 'bobsmith',
+  //     email: 'bobsmith@example.com',
+  //     role: 'user',
+  //     firstName: 'Bob',
+  //     lastName: 'Smith',
+  //     phoneNo: '1122334455',
+  //   },
+  // ];
+
+  // const partners = [
+  //   {
+  //     id: 2,
+  //     username: 'janedoe',
+  //     email: 'janedoe@example.com',
+  //     role: 'partner',
+  //     firstName: 'Jane',
+  //     lastName: 'Doe',
+  //     phoneNo: '0987654321',
+  //   },
+  // ];
 
   return (
     <div>
@@ -51,7 +73,7 @@ export default function AdminUsers() {
 
       <Container fluid>
         <div className="text-center mt-4" style={{ marginLeft: '5%', marginRight: '5%' }}>
-        <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1rem' }}>Users in the system</h4>
+          <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1rem' }}>Users in the system</h4>
         </div>
       </Container>
 
@@ -82,7 +104,7 @@ export default function AdminUsers() {
 
       <Container fluid>
         <div className="text-center mt-4" style={{ marginLeft: '5%', marginRight: '5%' }}>
-        <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1rem' }}>Partners in the system</h4>
+          <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1rem' }}>Partners in the system</h4>
         </div>
       </Container>
 

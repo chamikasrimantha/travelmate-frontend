@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from '../../../components/footer/Footer';
 import { Col, Container, Row } from 'react-bootstrap';
 import { ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
@@ -6,34 +6,45 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useNavigate } from 'react-router-dom';
 import AdminAnnouncementCard from '../../../components/announcement/AdminAnnouncementCard';
 import NavBarAdmin from '../../../components/navbar/NavBarAdmin';
+import { getAllAdminAnnouncements, createAdminAnnouncement } from '../../../services/api/admin_announcement.service';
 
 export default function AdminAnnouncements() {
 
-    const announcements = [
-        {
-            id: 1,
-            title: 'Maintenance Notice',
-            message: 'The system will be down for maintenance on 2024-07-01 from 02:00 AM to 04:00 AM.'
-        },
-        {
-            id: 2,
-            title: 'Maintenance Notice',
-            message: 'We are excited to announce a new feature that will be available starting 2024-07-05.'
-        },
-        {
-            id: 3,
-            title: 'Maintenance Notice',
-            message: 'The system will be down for maintenance on 2024-07-01 from 02:00 AM to 04:00 AM.'
-        },
-    ];
+    const [announcements, setAnnouncements] = useState([]);
+
+    const fetchAllAdminAnnouncements = async () => {
+        const response = await getAllAdminAnnouncements();
+        setAnnouncements(response.data);
+        console.log(response);
+    }
+
+    useEffect(() => {
+        fetchAllAdminAnnouncements();
+    }, []);
+
+    // const announcements = [
+    //     {
+    //         id: 1,
+    //         title: 'Maintenance Notice',
+    //         message: 'The system will be down for maintenance on 2024-07-01 from 02:00 AM to 04:00 AM.'
+    //     },
+    //     {
+    //         id: 2,
+    //         title: 'Maintenance Notice',
+    //         message: 'We are excited to announce a new feature that will be available starting 2024-07-05.'
+    //     },
+    //     {
+    //         id: 3,
+    //         title: 'Maintenance Notice',
+    //         message: 'The system will be down for maintenance on 2024-07-01 from 02:00 AM to 04:00 AM.'
+    //     },
+    // ];
 
     const navigate = useNavigate();
 
     const [open, setOpen] = useState(false);
-    const [newAnnouncement, setNewAnnouncement] = useState({
-        title: '',
-        message: ''
-    });
+    const [title, setTitle] = useState("");
+    const [message, setMessage] = useState("");
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -43,17 +54,18 @@ export default function AdminAnnouncements() {
         setOpen(false);
     };
 
-    const handleChange = (event) => {
-        setNewAnnouncement({
-            ...newAnnouncement,
-            [event.target.name]: event.target.value
-        });
-    };
-
-    const handleSubmit = () => {
-        // Handle the form submission logic here
-        console.log(newAnnouncement);
-        handleClose();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = {
+            "title": title,
+            "message": message
+        };
+        const response = await createAdminAnnouncement(data);
+        if (response.status === 200) {
+            handleClose();
+        } else {
+            handleClose();
+        }
     };
 
     return (
@@ -110,8 +122,8 @@ export default function AdminAnnouncements() {
                         type="text"
                         fullWidth
                         variant="outlined"
-                        value={newAnnouncement.title}
-                        onChange={handleChange}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                     />
                     <TextField
                         margin="dense"
@@ -120,8 +132,8 @@ export default function AdminAnnouncements() {
                         type="text"
                         fullWidth
                         variant="outlined"
-                        value={newAnnouncement.message}
-                        onChange={handleChange}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                     />
                 </DialogContent>
                 <DialogActions>

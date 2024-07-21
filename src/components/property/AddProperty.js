@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { TextField, Checkbox, FormControlLabel, MenuItem } from '@mui/material';
 import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
@@ -7,8 +7,58 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate } from 'react-router-dom';
 import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
+import { createProperty } from '../../services/api/property.service';
+import { getAllCategories } from '../../services/api/category.service';
+import { getAllDistricts } from '../../services/api/district.service';
+import { getAllCities } from '../../services/api/city.service';
 
 export default function AddProperty() {
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [hotline, setHotline] = useState("");
+    const [location, setLocation] = useState("");
+    const [sentence, setSentence] = useState("");
+    const [description, setDescription] = useState("");
+    const [img, setImg] = useState("");
+    const [price, setPrice] = useState("");
+    const [bedrooms, setBedrooms] = useState("");
+    const [guests, setGuests] = useState("");
+    const [airconditioning, setAirconditioning] = useState("");
+    const [heating, setHeating] = useState("");
+    const [wifi, setWifi] = useState("");
+    const [kitchen, setKitchen] = useState("");
+    const [breakfast, setBreakfast] = useState("");
+    const [washingmachine, setWashingmachine] = useState("");
+    const [tv, setTv] = useState("");
+    const [swimmingpool, setSwimmingpool] = useState("");
+    const [hottub, setHottub] = useState("");
+    const [balcony, setBalcony] = useState("");
+    const [parking, setParking] = useState("");
+    const [terrace, setTerrace] = useState("");
+    const [checkin, setCheckin] = useState("");
+    const [checkout, setCheckout] = useState("");
+    const [agerestriction, setAgerestriction] = useState("");
+    const [smoking, setSmoking] = useState("");
+    const [pets, setPets] = useState("");
+    const [parties, setParties] = useState("");
+    const [paymentMethods, setPaymentMethods] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [businessName, setBusinessName] = useState("");
+    const [livingAddress, setLivingAddress] = useState("");
+    const [phoneNo, setPhoneNo] = useState("");
+    const [emailAddress, setEmailAddress] = useState("");
+    const [status, setStatus] = useState("");
+    const [userId, setUserId] = useState("");
+    const [categoryId, setCategoryId] = useState("");
+    const [districtId, setDistrictId] = useState("");
+    const [cityId, setCityId] = useState("");
+
+    const [categories, setCategories] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [cities, setCities] = useState([]);
+
     const [step, setStep] = useState(1); // Step 1: Your Selection, Step 2: Enter Your Details, Step 3: Confirm Your Reservation
     const [confirmed, setConfirmed] = useState(false); // To track if the booking is confirmed
     const inputRef = useRef();
@@ -42,6 +92,30 @@ export default function AddProperty() {
             setStep(step - 1);
         }
     };
+
+    const fetchAllCategories = async () => {
+        const response = await getAllCategories();
+        setCategories(response.data);
+        console.log(response);
+    }
+
+    const fetchAllDistricts = async () => {
+        const response = await getAllDistricts();
+        setDistricts(response.data);
+        console.log(response);
+    }
+
+    const fetchAllCities = async () => {
+        const response = await getAllCities();
+        setCities(response.data);
+        console.log(response);
+    }
+
+    useEffect(() => {
+        fetchAllCategories();
+        fetchAllDistricts();
+        fetchAllCities();
+    }, []);
 
     const handleConfirm = () => {
         setConfirmed(true);
@@ -131,26 +205,26 @@ export default function AddProperty() {
                                 <Col md={6} className="mb-3" style={{ width: isMobile ? '100%' : '70%' }}>
                                     <div style={squareStyle}>
                                         {/* should take user id */}
-                                        <TextField label="Property name" variant="outlined" className="mb-3" fullWidth />
-                                        <TextField label="Property Email" variant="outlined" className="mb-3" fullWidth />
-                                        <TextField label="Property Hotline" variant="outlined" className="mb-3" fullWidth />
+                                        <TextField value={name} onChange={(e) => setName(e.target.value)} label="Property name" variant="outlined" className="mb-3" fullWidth />
+                                        <TextField value={email} onChange={(e) => setEmail(e.target.value)} label="Property Email" variant="outlined" className="mb-3" fullWidth />
+                                        <TextField value={hotline} onChange={(e) => setHotline(e.target.value)} label="Property Hotline" variant="outlined" className="mb-3" fullWidth />
                                         <TextField
                                             select
                                             label="Select category"
                                             variant="outlined"
-                                            // value={arrivalTime}
-                                            // onChange={handleArrivalTimeChange}
+                                            value={categoryId}
+                                            onChange={(e) => setCategoryId(e.target.value)}
                                             className="mb-3"
                                             fullWidth
                                         >
-                                            <MenuItem value="I don't know">I don't know</MenuItem>
+                                            <MenuItem value="I't know">I don't know</MenuItem>
                                         </TextField>
                                         <TextField
-                                            select
+                                            select don
                                             label="Select district"
                                             variant="outlined"
-                                            // value={arrivalTime}
-                                            // onChange={handleArrivalTimeChange}
+                                            value={districtId}
+                                            onChange={(e) => setDistrictId(e.target.value)}
                                             className="mb-3"
                                             style={{ width: isMobile ? '100%' : '47%', marginRight: isMobile ? '0' : '42px' }}
                                         >
@@ -160,8 +234,8 @@ export default function AddProperty() {
                                             select
                                             label="Select city"
                                             variant="outlined"
-                                            // value={arrivalTime}
-                                            // onChange={handleArrivalTimeChange}
+                                            value={cityId}
+                                            onChange={(e) => setCityId(e.target.value)}
                                             className="mb-3"
                                             style={{ width: isMobile ? '100%' : '47%' }}
                                         >
@@ -173,6 +247,8 @@ export default function AddProperty() {
                                                     variant='outlined'
                                                     className='mb-3'
                                                     label="Enter location"
+                                                    value={location}
+                                                    onChange={(e) => setLocation(e.target.value)}
                                                     fullWidth
                                                 />
                                             </StandaloneSearchBox>

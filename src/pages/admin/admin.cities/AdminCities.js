@@ -1,35 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBarAdmin from '../../../components/navbar/NavBarAdmin';
 import Footer from '../../../components/footer/Footer';
 import { Table, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { IconButton, InputAdornment, TextField, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { getAllCities } from '../../../services/api/city.service';
 
 export default function AdminCities() {
 
+    const [cities, setCities] = useState([]);
+
     const isMobile = useMediaQuery('(max-width: 600px)');
 
-    const cities = [
-        {
-            id: 1,
-            name: 'Colombo',
-            districtName: 'Colombo District',
-            postcode: '00100',
-        },
-        {
-            id: 2,
-            name: 'Kandy',
-            districtName: 'Kandy District',
-            postcode: '20000',
-        },
-        {
-            id: 3,
-            name: 'Galle',
-            districtName: 'Galle District',
-            postcode: '80000',
-        },
-    ];
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const citiesResponse = await getAllCities();
+                setCities(citiesResponse.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        fetchData();
+    }, []);
+
+    // const cities = [
+    //     {
+    //         id: 1,
+    //         name: 'Colombo',
+    //         districtName: 'Colombo District',
+    //         postcode: '00100',
+    //     },
+    //     {
+    //         id: 2,
+    //         name: 'Kandy',
+    //         districtName: 'Kandy District',
+    //         postcode: '20000',
+    //     },
+    //     {
+    //         id: 3,
+    //         name: 'Galle',
+    //         districtName: 'Galle District',
+    //         postcode: '80000',
+    //     },
+    // ]; 
 
     const handleViewClick = (id) => {
         // Handle the view button click
@@ -85,7 +100,7 @@ export default function AdminCities() {
                             <tr key={city.id}>
                                 <td>{city.id}</td>
                                 <td>{city.name}</td>
-                                <td>{city.districtName}</td>
+                                <td>{city.districtEntity.name}</td>
                                 <td>{city.postcode}</td>
                                 <td>
                                     <Link to={`/city/${city.id}`} style={{ textDecoration: 'none' }}>
