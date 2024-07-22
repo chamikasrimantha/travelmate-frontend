@@ -9,7 +9,7 @@ const PartnerProtectedRoutes = () => {
     const navigate = useNavigate();
 
     if (!token) {
-        navigate('/partner/login');
+        navigate('/partner/signin');
     }
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

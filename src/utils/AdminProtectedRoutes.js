@@ -9,7 +9,7 @@ const AdminProtectedRoutes = () => {
     const navigate = useNavigate();
 
     if (!token) {
-        navigate('/admin/login');
+        navigate('/admin/signin');
     }
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

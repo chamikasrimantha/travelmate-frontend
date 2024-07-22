@@ -4,7 +4,7 @@ import NavBarAuth from '../../../components/navbar/NavBarAuth';
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
-import { partnerLogin } from '../../../services/api/user.service'
+import { partnerLogin } from '../../../services/api/user.service';
 
 export default function PartnerSignIn() {
 
@@ -22,16 +22,23 @@ export default function PartnerSignIn() {
         const data = {
             "username": username,
             "password": password
+        };
+        try {
+            const response = await partnerLogin(data);
+            if (response.status === 200) {
+                const { token, userId } = response.data;
+                localStorage.setItem("token", token);
+                localStorage.setItem("userId", userId);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                navigate("/partner/dashboard");
+            } else {
+                console.log("login error!");
+            }
+        } catch (error) {
+            console.error("login error!", error);
         }
-        const response = await partnerLogin(data);
-        if (response.status === 200) {
-            localStorage.setItem("token", response.data);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
-            navigate("/partner/dashboard");
-        } else {
-            console.log("login error!");
-        }
-    }
+    };
+    
 
     return (
         <div>

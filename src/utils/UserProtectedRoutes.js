@@ -9,7 +9,7 @@ const UserProtectedRoutes = () => {
     const navigate = useNavigate();
 
     if (!token) {
-        navigate('/login');
+        navigate('/signin');
     }
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

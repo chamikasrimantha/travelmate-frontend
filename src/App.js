@@ -27,6 +27,7 @@ import AdminCities from './pages/admin/admin.cities/AdminCities';
 import AdminAnnouncements from './pages/admin/admin.announcements/AdminAnnouncements';
 import AdminProperties from './pages/admin/admin.properties/AdminProperties';
 import AdminUsers from './pages/admin/admin.users/AdminUsers';
+import PartnerProtectedRoutes from './utils/PartnerProtectedRoutes';
 
 function App() {
   return (
@@ -50,9 +51,12 @@ function App() {
           <Route path='/partner/signup' element={<PartnerSignUp />} />
           <Route path='/partner/signin' element={<PartnerSignIn />} />
 
-          <Route path='/partner/dashboard' element={<PartnerDashboard />} />
-          <Route path='/partner/properties' element={<PartnerProperties />} />
-          <Route path='/partner/add-new-property' element={<PartnerAddNewProperty />} />
+
+          <Route element={<PartnerProtectedRoutes />}>
+            <Route path='/partner/dashboard' element={<PartnerDashboard />} />
+            <Route path='/partner/properties' element={<PartnerProperties />} />
+            <Route path='/partner/add-new-property' element={<PartnerAddNewProperty />} />
+          </Route>
           <Route path='/partner/announcements' element={<PartnerAnnouncements />} />
           <Route path='/partner/bookings' element={<PartnerBookings />} />
           <Route path='/partner/profile' element={<PartnerProfile />} />
