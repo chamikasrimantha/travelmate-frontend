@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBarPartner from '../../../components/navbar/NavBarPartner';
 import Footer from '../../../components/footer/Footer';
 import { Col, Container, Row } from 'react-bootstrap';
@@ -6,44 +6,96 @@ import { ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, TextFiel
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useNavigate } from 'react-router-dom';
 import PartnerAnnouncementCard from '../../../components/announcement/PartnerAnnouncementCard';
+import { getAllPartnerAnnouncements, createPartnerAnnouncement } from '../../../services/api/partner_announcement.service';
+import { getPropertiesByUser } from '../../../services/api/property.service';
 
 export default function PartnerAnnouncements() {
 
-    const announcements = [
-        {
-            id: 1,
-            title: 'Maintenance Notice',
-            message: 'The pool will be closed for maintenance on July 20th.',
-            propertyId: 101
-        },
-        {
-            id: 2,
-            title: 'Maintenance Notice',
-            message: 'The pool will be closed for maintenance on July 20th.',
-            propertyId: 101
-        },
-        {
-            id: 3,
-            title: 'Maintenance Notice',
-            message: 'The pool will be closed for maintenance on July 20th.',
-            propertyId: 101
-        },
-    ];
+    const [announcements, setAnnouncements] = useState([]);
+    const [properties, setProperties] = useState([]);
 
-    const properties = [
-        { id: 101, name: 'Property 1' },
-        { id: 102, name: 'Property 2' },
-        { id: 103, name: 'Property 3' },
-    ];
+    const fetchPartnerAnnouncementsByPartner = async () => {
+        const userId = localStorage.getItem("userId");
+        if (userId) {
+            try {
+                const propertyResponse = await getPropertiesByUser(userId);
+                if (propertyResponse.status === 200) {
+                    const properties = propertyResponse.data;
+                    setProperties(properties);
+
+                    const allAnnouncements = [];
+                    const uniqueAnnouncementIds = new Set();
+
+                    for (const property of properties) {
+                        const announcementResponse = await getAllPartnerAnnouncements(property.id);
+                        if (announcementResponse.status === 200) {
+                            for (const announcement of announcementResponse.data) {
+                                if (!uniqueAnnouncementIds.has(announcement.id)) {
+                                    uniqueAnnouncementIds.add(announcement.id);
+                                    allAnnouncements.push(announcement);
+                                }
+                            }
+                        } else {
+                            console.error(`Failed to fetch announcements for property ${property.id}`);
+                        }
+                    }
+                    setAnnouncements(allAnnouncements);
+                } else {
+                    console.error('Failed to fetch properties');
+                }
+            } catch (error) {
+                console.error('An error occurred while fetching partner announcements:', error);
+            }
+        }
+    };
+
+    const fetchPropertiesByPartner = async () => {
+        const id = localStorage.getItem("userId");
+        if (id) {
+            const response = await getPropertiesByUser(id);
+            setProperties(response.data);
+            console.log(response);
+        }
+    }
+
+    useEffect(() => {
+        fetchPartnerAnnouncementsByPartner();
+        fetchPropertiesByPartner();
+    }, [])
+
+    // const announcements = [
+    //     {
+    //         id: 1,
+    //         title: 'Maintenance Notice',
+    //         message: 'The pool will be closed for maintenance on July 20th.',
+    //         propertyId: 101
+    //     },
+    //     {
+    //         id: 2,
+    //         title: 'Maintenance Notice',
+    //         message: 'The pool will be closed for maintenance on July 20th.',
+    //         propertyId: 101
+    //     },
+    //     {
+    //         id: 3,
+    //         title: 'Maintenance Notice',
+    //         message: 'The pool will be closed for maintenance on July 20th.',
+    //         propertyId: 101
+    //     },
+    // ];
+
+    // const properties = [
+    //     { id: 101, name: 'Property 1' },
+    //     { id: 102, name: 'Property 2' },
+    //     { id: 103, name: 'Property 3' },
+    // ];
 
     const navigate = useNavigate();
 
     const [open, setOpen] = useState(false);
-    const [newAnnouncement, setNewAnnouncement] = useState({
-        property: '',
-        title: '',
-        message: ''
-    });
+    const [propertyId, setPropertyId] = useState("");
+    const [title, setTitle] = useState("");
+    const [message, setMessage] = useState("");
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -53,17 +105,19 @@ export default function PartnerAnnouncements() {
         setOpen(false);
     };
 
-    const handleChange = (event) => {
-        setNewAnnouncement({
-            ...newAnnouncement,
-            [event.target.name]: event.target.value
-        });
-    };
-
-    const handleSubmit = () => {
-        // Handle the form submission logic here
-        console.log(newAnnouncement);
-        handleClose();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = {
+            "propertyId": propertyId,
+            "title": title,
+            "message": message
+        };
+        const response = await createPartnerAnnouncement(data);
+        if (response.status === 200) {
+            handleClose();
+        } else {
+            handleClose();
+        }
     };
 
     return (
@@ -98,7 +152,7 @@ export default function PartnerAnnouncements() {
             {/* Announcements */}
             <Container fluid>
                 <Row style={{ marginLeft: '02%', marginRight: '02%', marginTop: '10px' }} xs={1} md={3} className="g-1 justify-content-center">
-                    {announcements.map((announcement, index) => (
+                    {announcements && announcements.map((announcement, index) => (
                         <Col key={index} className="d-flex justify-content-center">
                             <PartnerAnnouncementCard announcement={announcement} />
                         </Col>
@@ -116,12 +170,12 @@ export default function PartnerAnnouncements() {
                     <FormControl fullWidth margin="dense" variant="outlined">
                         <InputLabel>Property</InputLabel>
                         <Select
-                            name="property"
-                            value={newAnnouncement.property}
-                            onChange={handleChange}
+                            name="Property"
+                            value={propertyId}
+                            onChange={(e) => setPropertyId(e.target.value)}
                             label="Property"
                         >
-                            {properties.map((property) => (
+                            {properties && properties.map((property) => (
                                 <MenuItem key={property.id} value={property.id}>
                                     {property.name}
                                 </MenuItem>
@@ -135,8 +189,8 @@ export default function PartnerAnnouncements() {
                         type="text"
                         fullWidth
                         variant="outlined"
-                        value={newAnnouncement.title}
-                        onChange={handleChange}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                     />
                     <TextField
                         margin="dense"
@@ -145,8 +199,8 @@ export default function PartnerAnnouncements() {
                         type="text"
                         fullWidth
                         variant="outlined"
-                        value={newAnnouncement.message}
-                        onChange={handleChange}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                     />
                 </DialogContent>
                 <DialogActions>

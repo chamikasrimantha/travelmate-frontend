@@ -13,14 +13,15 @@ import { getPropertiesByCity } from '../../services/api/property.service';
 
 export default function City() {
 
-    // const [cityData, setCityData] = useState(null);
-    // const [rateData, setRateData] = useState([]);
-    // const [properties, setProperties] = useState([]);
-
-    // const { id } = useParams();
-    // const navigate = useNavigate();
+    const [cityData, setCityData] = useState(null);
+    const [rateData, setRatings] = useState([]);
+    const [properties, setProperties] = useState([]);
+    const { id } = useParams();
 
     const [open, setOpen] = useState(false);
+
+    const [averageRating, setAverageRating] = useState(null);
+    const [reviewCount, setReviewCount] = useState(0);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -30,78 +31,103 @@ export default function City() {
         setOpen(false);
     };
 
-    // const fetchCityData = async () => {
-    //     try {
-    //         const cityResponse = await getCityById(id);
-    //         setCityData(cityResponse.data);
+    useEffect(() => {
+        const fetchCityData = async () => {
+            try {
+                const cityResponse = await getCityById(id);
+                setCityData(cityResponse.data);
+            } catch (error) {
+                console.error("Error fetching city data:", error);
+            }
+        };
 
-    //         const ratingsResponse = await getCityRatingsByCity(id);
-    //         setRateData(ratingsResponse.data);
+        const fetchRatings = async () => {
+            try {
+                const ratingsResponse = await getCityRatingsByCity(id);
+                setRatings(ratingsResponse.data);
 
-    //         const propertiesResponse = await getPropertiesByCity(id);
-    //         setProperties(propertiesResponse.data);
-    //     } catch (error) {
-    //         console.error("Failed to fetch city data", error);
-    //     }
-    // }
+                // Calculate average rating
+                const totalRating = ratingsResponse.data.reduce((sum, rating) => sum + rating.rate, 0);
+                const avgRating = ratingsResponse.data.length ? (totalRating / ratingsResponse.data.length).toFixed(1) : 0;
+                setAverageRating(avgRating);
+                setReviewCount(ratingsResponse.data.length);
+            } catch (error) {
+                console.error("Error fetching city ratings:", error);
+            }
+        };
 
-    // useEffect(() => {
-    //     fetchCityData();
-    // }, []);
+        const fetchProperties = async () => {
+            try {
+                const propertiesResponse = await getPropertiesByCity(id);
+                setProperties(propertiesResponse.data);
+                // Set the count of properties
+                setCityData((prevData) => ({
+                    ...prevData,
+                    propertiesCount: propertiesResponse.data.length,
+                }));
+            } catch (error) {
+                console.error("Error fetching city properties:", error);
+            }
+        };
+
+        fetchCityData();
+        fetchRatings();
+        fetchProperties();
+    }, [id]);
 
     // Sample data
-    const cityData = {
-        id: 1,
-        name: "Colombo",
-        district: "Colombo District",
-        image: 'https://via.placeholder.com/300',
-        rate: 4.3,
-        postCode: '12500',
-        latitude: '6.9271',
-        longitude: '79.8612',
-        reviews: 231
-    };
+    // const cityData = {
+    //     id: 1,
+    //     name: "Colombo",
+    //     district: "Colombo District",
+    //     image: 'https://via.placeholder.com/300',
+    //     rate: 4.3,
+    //     postCode: '12500',
+    //     latitude: '6.9271',
+    //     longitude: '79.8612',
+    //     reviews: 231
+    // };
 
-    const rateData = [
-        {
-            name: 'Jane Doe',
-            rate: 3.5,
-            comment: 'Nice place, but could be better. Nice place, but could be better.',
-        },
-        {
-            name: 'Jane Doe',
-            rate: 3.5,
-            comment: 'Nice place, but could be better. Nice place, but could be better.',
-        },
-        {
-            name: 'Jane Doe',
-            rate: 3.5,
-            comment: 'Nice place, but could be better. Nice place, but could be better.',
-        }
-    ];
+    // const rateData = [
+    //     {
+    //         name: 'Jane Doe',
+    //         rate: 3.5,
+    //         comment: 'Nice place, but could be better. Nice place, but could be better.',
+    //     },
+    //     {
+    //         name: 'Jane Doe',
+    //         rate: 3.5,
+    //         comment: 'Nice place, but could be better. Nice place, but could be better.',
+    //     },
+    //     {
+    //         name: 'Jane Doe',
+    //         rate: 3.5,
+    //         comment: 'Nice place, but could be better. Nice place, but could be better.',
+    //     }
+    // ];
 
-    const properties = [
-        {
-            id: '1',
-            image: 'https://via.placeholder.com/150',
-            name: 'Luxury Hotel',
-            rate: 4.3,
-            district: 'Colombo District',
-            city: 'Colombo',
-            location: '123 Main Street, Colombo, Sri Lanka',
-            description: 'A luxurious hotel with stunning views and excellent amenities.'
-        },
-        {
-            id: '2',
-            image: 'https://via.placeholder.com/150',
-            name: 'Luxury Hotel',
-            rate: 4.3,
-            district: 'Colombo District',
-            city: 'Colombo',
-            location: '123 Main Street, Colombo, Sri Lanka',
-            description: 'A luxurious hotel with stunning views and excellent amenities.'
-        }
-    ];
+    // const properties = [
+    //     {
+    //         id: '1',
+    //         image: 'https://via.placeholder.com/150',
+    //         name: 'Luxury Hotel',
+    //         rate: 4.3,
+    //         district: 'Colombo District',
+    //         city: 'Colombo',
+    //         location: '123 Main Street, Colombo, Sri Lanka',
+    //         description: 'A luxurious hotel with stunning views and excellent amenities.'
+    //     },
+    //     {
+    //         id: '2',
+    //         image: 'https://via.placeholder.com/150',
+    //         name: 'Luxury Hotel',
+    //         rate: 4.3,
+    //         district: 'Colombo District',
+    //         city: 'Colombo',
+    //         location: '123 Main Street, Colombo, Sri Lanka',
+    //         description: 'A luxurious hotel with stunning views and excellent amenities.'
+    //     }
+    // ];
 
     // Function to get the rating label
     const getRatingLabel = (rate) => {
@@ -113,8 +139,8 @@ export default function City() {
     };
 
     // Function to generate the Google Maps URL
-    const generateMapUrl = (lat, lon) => {
-        return `https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+    const generateMapUrl = () => {
+        return `https://maps.google.com/maps?q=${cityData?.latitude},${cityData?.longitude}&z=15&output=embed`;
     };
 
     return (
@@ -125,7 +151,7 @@ export default function City() {
                     <Row className="align-items-center d-none d-md-flex" style={{ height: '50%' }}>
                         <Col xs={6} style={{ paddingLeft: '6%', display: 'flex', alignItems: 'center', marginTop: '25px' }}>
                             <Typography variant="h5" style={{ color: 'white', fontWeight: 'bold', marginRight: '10px' }}>
-                                {cityData.name}
+                                {cityData?.name}
                             </Typography>
                             <Typography variant="subtitle1" style={{ color: 'white', fontStyle: 'italic' }}>
                                 | {cityData?.districtEntity?.name}
@@ -140,7 +166,7 @@ export default function City() {
                     <Row className="align-items-center d-none d-md-flex" style={{ height: '50%' }}>
                         <Col xs={12} md={6} style={{ paddingLeft: '6%', display: 'flex', alignItems: 'center', marginTop: '20px' }}>
                             <Rating
-                                value={cityData.rate}
+                                value={averageRating || 0}
                                 readOnly
                                 sx={{
                                     color: 'white',
@@ -161,10 +187,10 @@ export default function City() {
                                     marginRight: '15px'
                                 }}
                             >
-                                {cityData.rate}
+                                {averageRating ? averageRating : 'N/A'}
                             </Box>
                             <Typography variant="body1" style={{ color: 'white' }}>
-                                {getRatingLabel(cityData.rate)} . {cityData.reviews} Reviews - Read all reviews
+                                {averageRating ? getRatingLabel(averageRating) : ''} . {reviewCount} Reviews - Read all reviews
                             </Typography>
                         </Col>
                     </Row>
@@ -173,10 +199,10 @@ export default function City() {
                     <Row className="align-items-center d-flex d-md-none" style={{ height: '33.3%' }}>
                         <Col xs={12} style={{ paddingLeft: '6%', display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                             <Typography variant="h5" style={{ color: 'white', fontWeight: 'bold', marginRight: '10px' }}>
-                                {cityData.name}
+                                {cityData?.name}
                             </Typography>
                             <Typography variant="subtitle1" style={{ color: 'white', fontStyle: 'italic' }}>
-                                | {cityData.district}
+                                | {cityData?.districtEntity?.name}
                             </Typography>
                         </Col>
                     </Row>
@@ -199,10 +225,10 @@ export default function City() {
                                     marginRight: '10px'
                                 }}
                             >
-                                {cityData.rate}
+                                {averageRating ? averageRating : 'N/A'}
                             </Box>
                             <Rating
-                                value={cityData.rate}
+                                value={averageRating || 0}
                                 readOnly
                                 sx={{
                                     color: 'white',
@@ -226,7 +252,7 @@ export default function City() {
                         width="100%"
                         height="100%"
                         frameBorder="0"
-                        src={generateMapUrl(cityData.latitude, cityData.longitude)}
+                        src={generateMapUrl(cityData?.latitude, cityData?.longitude)}
                         allowFullScreen
                     ></iframe>
                 </div>
@@ -267,10 +293,10 @@ export default function City() {
                 </div>
                 <div style={{ marginTop: '7px', textAlign: 'left', display: 'flex', alignItems: 'center', marginLeft: '5%' }}>
                     <div style={{ backgroundColor: '#184D9D', color: 'white', borderRadius: '4px', padding: '4px 8px', marginRight: '10px' }}>
-                        {cityData.rate}
+                        {averageRating ? averageRating : 'N/A'}
                     </div>
-                    <span>{getRatingLabel(cityData.rate)}</span>
-                    <span style={{ marginLeft: '10px' }}>. {cityData.reviews} reviews</span>
+                    <span>{averageRating ? getRatingLabel(averageRating) : ''}</span>
+                    <span style={{ marginLeft: '10px' }}>. {reviewCount} reviews</span>
                     <span style={{ marginLeft: '10px', color: '#184D9D', cursor: 'pointer' }}> Read all reviews</span>
                 </div>
                 <Row style={{ marginLeft: '02%', marginRight: '02%', marginTop: '10px' }} xs={1} md={2} lg={3} className="g-1 justify-content-center">
@@ -285,7 +311,7 @@ export default function City() {
             <Dialog open={open} onClose={handleClose} fullWidth>
                 <DialogTitle>Add Review</DialogTitle>
                 <DialogContent>
-                    <AddCityReview userId={1} cityId={cityData.id} handleClose={handleClose} />
+                    <AddCityReview userId={localStorage.getItem("userId")} cityId={id} handleClose={handleClose} />
                 </DialogContent>
             </Dialog>
 
@@ -293,7 +319,7 @@ export default function City() {
             {/* Properties */}
             <Container fluid>
                 <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
-                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>{cityData.name}: {cityData.postCode} properties found</h4>
+                    <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>{cityData?.name}: {cityData?.propertiesCount} properties found</h4>
                     <p style={{ textAlign: 'left', color: '#184D9D', cursor: 'pointer' }}>Load all properties</p>
                 </div>
                 <Row style={{ marginLeft: '4%', marginRight: '4%' }} xs={1} md={2} className="g-1 justify-content-center">

@@ -32,13 +32,13 @@ const RateCard = ({ rateData }) => {
     return (
         <div className="mb-3" style={cardStyle}>
             <CardContent>
-                <Typography style={rateBoxStyle} variant="h6">{rateData.name}</Typography>
+                <Typography style={rateBoxStyle} variant="h6">{rateData?.userEntity?.username}</Typography>
                 <div style={rateBoxStyle}>
-                    <Box style={rateNumberStyle}>{rateData.rate}</Box>
-                    <Rating value={rateData.rate} readOnly />
+                    <Box style={rateNumberStyle}>{rateData?.rate}</Box>
+                    <Rating value={rateData?.rate} readOnly />
                 </div>
                 <Typography variant="body1" style={commentStyle}>
-                    {rateData.comment}
+                    {rateData?.comment}
                 </Typography>
             </CardContent>
         </div>

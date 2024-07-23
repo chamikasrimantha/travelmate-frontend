@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import { Button, TextField, Box, Rating, DialogActions } from '@mui/material';
+import { addCityRate } from '../../services/api/city_rating.service';
 
 export default function AddCityReview({ userId, cityId, handleClose }) {
     const [rate, setRate] = useState(0);
     const [comment, setComment] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Handle form submission logic here
+        const data = {
+            "rate": rate,
+            "comment": comment,
+            "userId": userId,
+            "cityId": cityId
+        }
+        const response = await addCityRate(data);
         console.log({ userId, cityId, rate, comment });
-        handleClose(); // Close the dialog after submission
+        if (response.status === 200) {
+            handleClose();
+        } else {
+            handleClose();
+        }
     };
 
     return (
@@ -24,7 +35,7 @@ export default function AddCityReview({ userId, cityId, handleClose }) {
                 />
             </Box>
             <TextField
-                style={{marginBottom: '10px'}}
+                style={{ marginBottom: '10px' }}
                 margin="dense"
                 label="Comment"
                 type="text"
