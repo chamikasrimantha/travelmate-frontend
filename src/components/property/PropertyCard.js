@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
 export default function PropertyCard({ property }) {
-    const { id, img, name, rate, location, description } = property;
+    const { id, img, name, rate, location, sentence } = property;
 
     // Function to get the rating label
     const getRatingLabel = (rate) => {
@@ -78,7 +78,7 @@ export default function PropertyCard({ property }) {
                     {location}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" className="mt-2 d-flex align-items-center justify-content-between">
-                    {description}
+                    {sentence}
                 </Typography>
             </div>
         </div>

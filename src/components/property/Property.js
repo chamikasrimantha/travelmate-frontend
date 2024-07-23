@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, FormControl, Table } from 'react-bootstrap';
 import { Box, Typography, Rating, Button, useMediaQuery, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -14,7 +14,6 @@ import HotTubIcon from '@mui/icons-material/HotTub';
 import BalconyIcon from '@mui/icons-material/Balcony';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import DeckIcon from '@mui/icons-material/Deck';
-
 import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PetsIcon from '@mui/icons-material/Pets';
@@ -23,19 +22,72 @@ import SmokingRoomsOutlinedIcon from '@mui/icons-material/SmokingRoomsOutlined';
 import GroupIcon from '@mui/icons-material/Group';
 import LocalBarIcon from '@mui/icons-material/LocalBar';
 import PaymentIcon from '@mui/icons-material/Payment';
-
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
 import RateCard from '../rate/RateCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PartnerAnnouncementCard from '../announcement/PartnerAnnouncementCard';
+import { getPropertiesById } from '../../services/api/property.service';
+import { getPropertyRatingsByProperty } from '../../services/api/property_rating.service';
+import { getPartnerAnnouncementsByProperty } from '../../services/api/partner_announcement.service';
 
 export default function Property() {
 
     const [checkinDate, setCheckinDate] = useState(null);
     const [checkoutDate, setCheckoutDate] = useState(null);
     const navigate = useNavigate();
+    const { id } = useParams();
+
+    const [propertyData, setPropertyData] = useState(null);
+    const [rateData, setRatings] = useState([]);
+    const [announcements, setAnnouncements] = useState([]);
+
+    const [averageRating, setAverageRating] = useState(null);
+    const [reviewCount, setReviewCount] = useState(0);
+
+    useEffect(() => {
+        const fetchPropertyData = async () => {
+            try {
+                const propertyResponse = await getPropertiesById(id);
+                setPropertyData(propertyResponse.data);
+            } catch (error) {
+                console.error("Error fetching property data:", error);
+            }
+        };
+
+        const fetchRatings = async () => {
+            try {
+                const ratingsResponse = await getPropertyRatingsByProperty(id);
+                setRatings(ratingsResponse.data);
+
+                // Calculate average rating
+                const totalRating = ratingsResponse.data.reduce((sum, rating) => sum + rating.rate, 0);
+                const avgRating = ratingsResponse.data.length ? (totalRating / ratingsResponse.data.length).toFixed(1) : 0;
+                setAverageRating(avgRating);
+                setReviewCount(ratingsResponse.data.length);
+            } catch (error) {
+                console.error("Error fetching property ratings:", error);
+            }
+        };
+
+        const fetchAnnouncements = async () => {
+            try {
+                const announcementsResponse = await getPartnerAnnouncementsByProperty(id);
+                setAnnouncements(announcementsResponse.data);
+                // Set the count of properties
+                // setPropertyData((prevData) => ({
+                //     ...prevData,
+                //     propertiesCount: announcementsResponse.data.length,
+                // }));
+            } catch (error) {
+                console.error("Error fetching property announcements:", error);
+            }
+        };
+
+        fetchPropertyData();
+        fetchRatings();
+        fetchAnnouncements();
+    }, []);
 
     const handleBooking = () => {
         // Save dates to localStorage or state management solution
@@ -45,110 +97,108 @@ export default function Property() {
         navigate('/book');
     };
 
-    const rateData = [
-        {
-            name: 'Jane Doe',
-            rate: 3.5,
-            comment: 'Nice place, but could be better. Nice place, but could be better.',
-        },
-        {
-            name: 'Jane Doe',
-            rate: 3.5,
-            comment: 'Nice place, but could be better. Nice place, but could be better.',
-        },
-        {
-            name: 'Jane Doe',
-            rate: 3.5,
-            comment: 'Nice place, but could be better. Nice place, but could be better.',
-        }
-    ];
+    // const rateData = [
+    //     {
+    //         name: 'Jane Doe',
+    //         rate: 3.5,
+    //         comment: 'Nice place, but could be better. Nice place, but could be better.',
+    //     },
+    //     {
+    //         name: 'Jane Doe',
+    //         rate: 3.5,
+    //         comment: 'Nice place, but could be better. Nice place, but could be better.',
+    //     },
+    //     {
+    //         name: 'Jane Doe',
+    //         rate: 3.5,
+    //         comment: 'Nice place, but could be better. Nice place, but could be better.',
+    //     }
+    // ];
 
-    const propertyData = {
-        id: '1',
-        image: 'https://via.placeholder.com/150',
-        name: 'Luxury Hotel',
-        category: 'Normal Hotel',
-        rate: 4.3,
-        reviews: 231,
-        district: 'Colombo District',
-        city: 'Colombo',
-        location: '123 Main Street, Colombo, Sri Lanka',
-        sentence: 'A luxurious hotel with stunning views and excellent amenities.',
-        description: 'Colombo, the bustling commercial capital of Sri Lanka, offers a rich tapestry of cultural, historical, and contemporary attractions. From its colonial-era buildings to modern skyscrapers, the city blends the old and new in a vibrant mix. The citys diverse population and historical significance make it a fascinating destination for travelers. Whether exploring the markets, enjoying the beach, or visiting temples and museums, Colombo provides a dynamic urban experience that captivates visitors.',
-        latitude: '6.9271',
-        longitude: '79.8612',
-        email: 'luxury@gmail.com',
-        hotline: '+94 76 163 5652',
-        price: 12000,
-        // services
-        airconditioning: true,
-        heating: false,
-        wifi: true,
-        kitchen: true,
-        breakfast: true,
-        washingmachine: false,
-        tv: true,
-        swimmingpool: true,
-        hottub: false,
-        balcony: true,
-        parking: true,
-        terrace: true,
-        // rules
-        checkin: '02:00 PM',
-        checkout: '11:00 AM',
-        agerestriction: false, // there is not age restriction for checkin
-        smoking: false,
-        pets: false,
-        parties: true,
-        paymentmethods: 'Visa, Cash',
-    }
+    // const propertyData = {
+    //     id: '1',
+    //     image: 'https://via.placeholder.com/150',
+    //     name: 'Luxury Hotel',
+    //     category: 'Normal Hotel',
+    //     rate: 4.3,
+    //     reviews: 231,
+    //     district: 'Colombo District',
+    //     city: 'Colombo',
+    //     location: '123 Main Street, Colombo, Sri Lanka',
+    //     sentence: 'A luxurious hotel with stunning views and excellent amenities.',
+    //     description: 'Colombo, the bustling commercial capital of Sri Lanka, offers a rich tapestry of cultural, historical, and contemporary attractions. From its colonial-era buildings to modern skyscrapers, the city blends the old and new in a vibrant mix. The citys diverse population and historical significance make it a fascinating destination for travelers. Whether exploring the markets, enjoying the beach, or visiting temples and museums, Colombo provides a dynamic urban experience that captivates visitors.',
+    //     latitude: '6.9271',
+    //     longitude: '79.8612',
+    //     email: 'luxury@gmail.com',
+    //     hotline: '+94 76 163 5652',
+    //     price: 12000,
+    //     airconditioning: true,
+    //     heating: false,
+    //     wifi: true,
+    //     kitchen: true,
+    //     breakfast: true,
+    //     washingmachine: false,
+    //     tv: true,
+    //     swimmingpool: true,
+    //     hottub: false,
+    //     balcony: true,
+    //     parking: true,
+    //     terrace: true,
+    //     checkin: '02:00 PM',
+    //     checkout: '11:00 AM',
+    //     agerestriction: false,
+    //     smoking: false,
+    //     pets: false,
+    //     parties: true,
+    //     paymentmethods: 'Visa, Cash',
+    // }
 
-    const announcements = [
-        {
-            id: 1,
-            title: 'Maintenance Notice',
-            message: 'The pool will be closed for maintenance on July 20th.',
-            propertyId: 101
-        },
-        {
-            id: 2,
-            title: 'Maintenance Notice',
-            message: 'The pool will be closed for maintenance on July 20th.',
-            propertyId: 101
-        },
-        {
-            id: 3,
-            title: 'Maintenance Notice',
-            message: 'The pool will be closed for maintenance on July 20th.',
-            propertyId: 101
-        },
-    ];
+    // const announcements = [
+    //     {
+    //         id: 1,
+    //         title: 'Maintenance Notice',
+    //         message: 'The pool will be closed for maintenance on July 20th.',
+    //         propertyId: 101
+    //     },
+    //     {
+    //         id: 2,
+    //         title: 'Maintenance Notice',
+    //         message: 'The pool will be closed for maintenance on July 20th.',
+    //         propertyId: 101
+    //     },
+    //     {
+    //         id: 3,
+    //         title: 'Maintenance Notice',
+    //         message: 'The pool will be closed for maintenance on July 20th.',
+    //         propertyId: 101
+    //     },
+    // ];
 
     const isMobile = useMediaQuery('(max-width: 600px)');
 
     const facilities = [
-        { name: 'Air Conditioning', available: propertyData.airconditioning, icon: <AcUnitIcon /> },
-        { name: 'Heating', available: propertyData.heating, icon: <WhatshotIcon /> },
-        { name: 'WiFi', available: propertyData.wifi, icon: <WifiIcon /> },
-        { name: 'Kitchen', available: propertyData.kitchen, icon: <KitchenIcon /> },
-        { name: 'Washing Machine', available: propertyData.washingmachine, icon: <LocalLaundryServiceIcon /> },
-        { name: 'TV', available: propertyData.tv, icon: <TvIcon /> },
-        { name: 'Swimming Pool', available: propertyData.swimmingpool, icon: <PoolIcon /> },
-        { name: 'Hot Tub', available: propertyData.hottub, icon: <HotTubIcon /> },
-        { name: 'Balcony', available: propertyData.balcony, icon: <BalconyIcon /> },
-        { name: 'Parking', available: propertyData.parking, icon: <LocalParkingIcon /> },
-        { name: 'Terrace', available: propertyData.terrace, icon: <DeckIcon /> },
-        { name: 'Breakfast', available: propertyData.breakfast, icon: <BreakfastDiningIcon /> }
+        { name: 'Air Conditioning', available: propertyData?.airconditioning, icon: <AcUnitIcon /> },
+        { name: 'Heating', available: propertyData?.heating, icon: <WhatshotIcon /> },
+        { name: 'WiFi', available: propertyData?.wifi, icon: <WifiIcon /> },
+        { name: 'Kitchen', available: propertyData?.kitchen, icon: <KitchenIcon /> },
+        { name: 'Washing Machine', available: propertyData?.washingmachine, icon: <LocalLaundryServiceIcon /> },
+        { name: 'TV', available: propertyData?.tv, icon: <TvIcon /> },
+        { name: 'Swimming Pool', available: propertyData?.swimmingpool, icon: <PoolIcon /> },
+        { name: 'Hot Tub', available: propertyData?.hottub, icon: <HotTubIcon /> },
+        { name: 'Balcony', available: propertyData?.balcony, icon: <BalconyIcon /> },
+        { name: 'Parking', available: propertyData?.parking, icon: <LocalParkingIcon /> },
+        { name: 'Terrace', available: propertyData?.terrace, icon: <DeckIcon /> },
+        { name: 'Breakfast', available: propertyData?.breakfast, icon: <BreakfastDiningIcon /> }
     ];
 
     const houseRules = [
-        { name: 'Check-in', value: `From ${propertyData.checkin}`, icon: <AccessTimeIcon /> },
-        { name: 'Check-out', value: `Until ${propertyData.checkout}`, icon: <AccessTimeIcon /> },
-        { name: 'Age Restriction', value: propertyData.agerestriction ? 'Age restriction applies' : 'No age restriction', icon: <GroupIcon /> },
-        { name: 'Smoking', value: propertyData.smoking ? 'Smoking allowed' : 'Smoking not allowed', icon: propertyData.smoking ? <SmokingRoomsIcon /> : <SmokingRoomsOutlinedIcon /> },
-        { name: 'Pets', value: propertyData.pets ? 'Pets allowed' : 'Pets are not allowed', icon: <PetsIcon /> },
-        { name: 'Parties', value: propertyData.parties ? 'Parties/events allowed' : 'Parties/events are not allowed', icon: <LocalBarIcon /> },
-        { name: 'Payment Methods', value: `Accepted payment methods: ${propertyData.paymentmethods}`, icon: <PaymentIcon /> },
+        { name: 'Check-in', value: `From ${propertyData?.checkin}`, icon: <AccessTimeIcon /> },
+        { name: 'Check-out', value: `Until ${propertyData?.checkout}`, icon: <AccessTimeIcon /> },
+        { name: 'Age Restriction', value: propertyData?.agerestriction ? 'Age restriction applies' : 'No age restriction', icon: <GroupIcon /> },
+        { name: 'Smoking', value: propertyData?.smoking ? 'Smoking allowed' : 'Smoking not allowed', icon: propertyData?.smoking ? <SmokingRoomsIcon /> : <SmokingRoomsOutlinedIcon /> },
+        { name: 'Pets', value: propertyData?.pets ? 'Pets allowed' : 'Pets are not allowed', icon: <PetsIcon /> },
+        { name: 'Parties', value: propertyData?.parties ? 'Parties/events allowed' : 'Parties/events are not allowed', icon: <LocalBarIcon /> },
+        { name: 'Payment Methods', value: `Accepted payment methods: ${propertyData?.paymentMethods}`, icon: <PaymentIcon /> },
     ];
 
     // Function to get the rating label
@@ -173,10 +223,10 @@ export default function Property() {
                     <Row className="align-items-center d-none d-md-flex" style={{ height: '50%' }}>
                         <Col xs={6} style={{ paddingLeft: '6%', display: 'flex', alignItems: 'center', marginTop: '25px' }}>
                             <Typography variant="h5" style={{ color: 'white', fontWeight: 'bold', marginRight: '10px' }}>
-                                {propertyData.name}
+                                {propertyData?.name}
                             </Typography>
                             <Typography variant="subtitle1" style={{ color: 'white', fontStyle: 'italic' }}>
-                                | {propertyData.category} - {propertyData.district}
+                                | {propertyData?.categoryEntity?.name} - {propertyData?.districtEntity?.name}
                             </Typography>
                         </Col>
                         <Col xs={6} style={{ textAlign: 'right', paddingRight: '6%', marginTop: '25px' }}>
@@ -188,7 +238,7 @@ export default function Property() {
                     <Row className="align-items-center d-none d-md-flex" style={{ height: '50%' }}>
                         <Col xs={12} md={6} style={{ paddingLeft: '6%', display: 'flex', alignItems: 'center', marginTop: '20px' }}>
                             <Typography variant="body1" style={{ color: 'white' }}>
-                                {propertyData.location}
+                                {propertyData?.location}
                             </Typography>
                         </Col>
                         <Col xs={6} style={{ textAlign: 'right', paddingRight: '6%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '20px' }}>
@@ -202,10 +252,10 @@ export default function Property() {
                                     marginRight: '15px'
                                 }}
                             >
-                                {propertyData.rate}
+                                {averageRating ? averageRating : 'N/A'}
                             </Box>
                             <Rating
-                                value={propertyData.rate}
+                                value={averageRating || 0}
                                 readOnly
                                 sx={{
                                     color: 'white',
@@ -215,7 +265,7 @@ export default function Property() {
                                 }}
                             />
                             <Typography variant="body1" style={{ color: 'white', marginLeft: '15px' }}>
-                                {getRatingLabel(propertyData.rate)} . {propertyData.reviews} Reviews - Read all reviews
+                            {averageRating ? getRatingLabel(averageRating) : 'N/A'} . {reviewCount} Reviews - Read all reviews
                             </Typography>
                         </Col>
                     </Row>
@@ -224,10 +274,10 @@ export default function Property() {
                     <Row className="align-items-center d-flex d-md-none" style={{ height: '33.3%' }}>
                         <Col xs={12} style={{ paddingLeft: '6%', display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                             <Typography variant="h5" style={{ color: 'white', fontWeight: 'bold', marginRight: '10px' }}>
-                                {propertyData.name}
+                                {propertyData?.name}
                             </Typography>
                             <Typography variant="subtitle1" style={{ color: 'white', fontStyle: 'italic' }}>
-                                | {propertyData.district}
+                                | {propertyData?.districtEntity?.name}
                             </Typography>
                         </Col>
                     </Row>
@@ -250,10 +300,10 @@ export default function Property() {
                                     marginRight: '10px'
                                 }}
                             >
-                                {propertyData.rate}
+                                {averageRating ? averageRating : 'N/A'}
                             </Box>
                             <Rating
-                                value={propertyData.rate}
+                                value={averageRating || 0}
                                 readOnly
                                 sx={{
                                     color: 'white',
@@ -277,7 +327,7 @@ export default function Property() {
                         width="100%"
                         height="100%"
                         frameBorder="0"
-                        src={generateMapUrl(propertyData.latitude, propertyData.longitude)}
+                        src={generateMapUrl(propertyData?.latitude, propertyData?.longitude)}
                         allowFullScreen
                     ></iframe>
                 </div>
@@ -288,7 +338,7 @@ export default function Property() {
                 <Row>
                     <Col>
                         <Typography variant="body1" style={{ marginTop: '20px', textAlign: 'justify' }}>
-                            {propertyData.description}
+                            {propertyData?.description}
                         </Typography>
                         <Button
                             className="d-flex justify-content-between align-items-center mt-3"
@@ -342,7 +392,7 @@ export default function Property() {
                 <div className="d-flex justify-content-between align-items-center mt-4" style={{ marginLeft: '5%', marginRight: '5%' }}>
                     <div>
                         <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Price and contact Details</h4>
-                        <p style={{ textAlign: 'left', fontSize: '1rem' }}>Price per day: {propertyData.price} LKR | Email: {propertyData.email} | Hotline: {propertyData.hotline}</p>
+                        <p style={{ textAlign: 'left', fontSize: '1rem' }}>Price per day: {propertyData?.price} LKR | Email: {propertyData?.email} | Hotline: {propertyData?.hotline}</p>
                     </div>
                 </div>
             </Container>
@@ -400,10 +450,10 @@ export default function Property() {
                 </div>
                 <div style={{ marginTop: '7px', textAlign: 'left', display: 'flex', alignItems: 'center', marginLeft: '5%' }}>
                     <div style={{ backgroundColor: '#184D9D', color: 'white', borderRadius: '4px', padding: '4px 8px', marginRight: '10px' }}>
-                        {propertyData.rate}
+                    {averageRating ? averageRating : 'N/A'}
                     </div>
-                    <span>{getRatingLabel(propertyData.rate)}</span>
-                    <span style={{ marginLeft: '10px' }}>. {propertyData.reviews} reviews</span>
+                    <span>{averageRating ? getRatingLabel(averageRating) : ''}</span>
+                    <span style={{ marginLeft: '10px' }}>. {reviewCount} reviews</span>
                     <span style={{ marginLeft: '10px', color: '#184D9D', cursor: 'pointer' }}> Read all reviews</span>
                 </div>
                 <Row style={{ marginLeft: '02%', marginRight: '02%', marginTop: '10px' }} xs={1} md={2} lg={3} className="g-1 justify-content-center">
@@ -419,7 +469,7 @@ export default function Property() {
             <Container fluid>
                 <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
                     <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>House rules</h4>
-                    <p style={{ textAlign: 'left' }}>{propertyData.name} takes special requests - add in the next step!</p>
+                    <p style={{ textAlign: 'left' }}>{propertyData?.name} takes special requests - add in the next step!</p>
                 </div>
                 <Row style={{ marginLeft: '5%', marginRight: '5%' }} xs={1} md={1} className="g-1 justify-content-center">
                     <Table bordered style={{ borderColor: '#DEDDDD' }}>
