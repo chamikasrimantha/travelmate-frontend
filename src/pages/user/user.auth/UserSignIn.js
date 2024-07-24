@@ -23,13 +23,19 @@ export default function UserSignIn() {
       "username": username,
       "password": password
     }
-    const response = await userLogin(data);
-    if (response.status === 200) {
-      localStorage.setItem("token", response.data);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
-      navigate("/");
-    } else {
-      console.log("login error!");
+    try {
+      const response = await userLogin(data);
+      if (response.status === 200) {
+        const { token, userId } = response.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", userId);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        navigate("/");
+      } else {
+        console.log("login error!");
+      }
+    } catch (error) {
+      console.error("login error!", error);
     }
   }
 

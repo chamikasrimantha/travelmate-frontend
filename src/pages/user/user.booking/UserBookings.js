@@ -10,17 +10,35 @@ export default function UserBookings() {
 
     const [bookings, setBookings] = useState([]);
 
+    const [ratings, setRatings] = useState({});
+
     useEffect(() => {
-        const fetchBookingsByUser = async () => {
+        const fetchBookingsAndRatings = async () => {
             const id = localStorage.getItem("userId");
             if (id) {
                 const response = await getBookingsByUser(id);
-                setBookings(response.data);
-                console.log(response);
+                const bookingsData = response.data;
+
+                // Create a new object to store ratings by property ID
+                const ratingsData = {};
+                
+                // Fetch ratings for each property in the bookings
+                for (const booking of bookingsData) {
+                    const propertyId = booking?.propertyEntity?.id;
+                    if (propertyId && !ratingsData[propertyId]) {
+                        const ratingResponse = await getPropertyRatingsByProperty(propertyId);
+                        const ratingsArray = ratingResponse.data;
+                        const averageRating = ratingsArray.reduce((acc, rating) => acc + rating.rate, 0) / ratingsArray.length;
+                        ratingsData[propertyId] = averageRating;
+                    }
+                }
+                
+                setBookings(bookingsData);
+                setRatings(ratingsData);
             }
         };
 
-        fetchBookingsByUser();
+        fetchBookingsAndRatings();
     }, []);
 
     // const bookings = [
@@ -130,7 +148,7 @@ export default function UserBookings() {
                 <Row style={{ marginLeft: '1%', marginRight: '1%' }} xs={1} md={2} className="g-1 justify-content-center">
                     {activeBookings.map((booking, index) => (
                         <Col key={index} className="d-flex justify-content-center">
-                            <BookingCard booking={booking} />
+                            <BookingCard booking={booking} rating={ratings[booking?.propertyEntity?.id]} />
                         </Col>
                     ))}
                 </Row>
@@ -141,7 +159,7 @@ export default function UserBookings() {
                 <Row style={{ marginLeft: '1%', marginRight: '1%' }} xs={1} md={2} className="g-1 justify-content-center">
                     {completedBookings.map((booking, index) => (
                         <Col key={index} className="d-flex justify-content-center">
-                            <BookingCard booking={booking} />
+                            <BookingCard booking={booking} rating={ratings[booking?.propertyEntity?.id]} />
                         </Col>
                     ))}
                 </Row>

@@ -73,3 +73,15 @@ export const getPartnerAnnouncementsByProperty = async (id) => {
         return error;
     }
 }
+
+export const getPartnerAnnouncementsByUser = async (id) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BACKEND_BASE_URL}/users/${id}/partner-announcements`
+        );
+        return response;
+    } catch (error) {
+        console.log("Error: while getting partner announcements by user", error);
+        return error;
+    }
+}

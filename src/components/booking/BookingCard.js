@@ -5,7 +5,7 @@ import { useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddPropertyReview from '../rate/AddPropertyReview';
 
-export default function BookingCard({ booking }) {
+export default function BookingCard({ booking, rating }) {
 
     const [open, setOpen] = useState(false);
 
@@ -93,9 +93,9 @@ export default function BookingCard({ booking }) {
                                     marginRight: '5px'
                                 }}
                             >
-                                {propertyRate}
+                                {rating ? rating.toFixed(1) : 'N/A'}
                             </Box>
-                            <Rating name="read-only" value={propertyRate} readOnly />
+                            <Rating name="read-only" value={rating || 0} readOnly />
                         </div>
                     </div>
                     <div style={rightSection}>

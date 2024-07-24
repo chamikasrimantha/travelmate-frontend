@@ -6,7 +6,7 @@ import { ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, TextFiel
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useNavigate } from 'react-router-dom';
 import PartnerAnnouncementCard from '../../../components/announcement/PartnerAnnouncementCard';
-import { getAllPartnerAnnouncements, createPartnerAnnouncement } from '../../../services/api/partner_announcement.service';
+import { getPartnerAnnouncementsByUser, createPartnerAnnouncement } from '../../../services/api/partner_announcement.service';
 import { getPropertiesByUser } from '../../../services/api/property.service';
 
 export default function PartnerAnnouncements() {
@@ -15,37 +15,11 @@ export default function PartnerAnnouncements() {
     const [properties, setProperties] = useState([]);
 
     const fetchPartnerAnnouncementsByPartner = async () => {
-        const userId = localStorage.getItem("userId");
-        if (userId) {
-            try {
-                const propertyResponse = await getPropertiesByUser(userId);
-                if (propertyResponse.status === 200) {
-                    const properties = propertyResponse.data;
-                    setProperties(properties);
-
-                    const allAnnouncements = [];
-                    const uniqueAnnouncementIds = new Set();
-
-                    for (const property of properties) {
-                        const announcementResponse = await getAllPartnerAnnouncements(property.id);
-                        if (announcementResponse.status === 200) {
-                            for (const announcement of announcementResponse.data) {
-                                if (!uniqueAnnouncementIds.has(announcement.id)) {
-                                    uniqueAnnouncementIds.add(announcement.id);
-                                    allAnnouncements.push(announcement);
-                                }
-                            }
-                        } else {
-                            console.error(`Failed to fetch announcements for property ${property.id}`);
-                        }
-                    }
-                    setAnnouncements(allAnnouncements);
-                } else {
-                    console.error('Failed to fetch properties');
-                }
-            } catch (error) {
-                console.error('An error occurred while fetching partner announcements:', error);
-            }
+        const id = localStorage.getItem("userId");
+        if (id) {
+            const response = await getPartnerAnnouncementsByUser(id);
+            setAnnouncements(response.data);
+            console.log(response);
         }
     };
 
@@ -107,7 +81,9 @@ export default function PartnerAnnouncements() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const userId = localStorage.getItem("userId");
         const data = {
+            "userId": userId,
             "propertyId": propertyId,
             "title": title,
             "message": message
