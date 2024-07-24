@@ -19,12 +19,8 @@ export default function BookingCard({ booking }) {
 
     const {
         id,
-        propertyName,
-        propertyLocation,
         propertyRate,
-        checkinDate,
-        checkoutDate,
-        totalPrice
+        propertyEntity: { id: propertyId } = {},
     } = booking;
 
     const isMobile = useMediaQuery('(max-width:600px)');
@@ -82,10 +78,10 @@ export default function BookingCard({ booking }) {
                 <CardContent style={sectionStyle}>
                     <div style={leftSection}>
                         <Typography variant="h4" style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
-                            {propertyName}
+                            {booking?.propertyEntity?.name}
                         </Typography>
                         <Typography variant="body2" style={{ marginTop: '10px', fontSize: '1rem' }} color="textSecondary">
-                            {propertyLocation}
+                            {booking?.propertyEntity?.location}
                         </Typography>
                         <div style={rateStyle}>
                             <Box
@@ -104,13 +100,13 @@ export default function BookingCard({ booking }) {
                     </div>
                     <div style={rightSection}>
                         <Typography variant="body2" style={{ fontSize: '1rem' }}>
-                            <b>Check-in: </b> {checkinDate}
+                            <b>Check-in: </b> {booking?.checkinDate}
                         </Typography>
                         <Typography style={{ marginTop: '13px', fontSize: '1rem' }} variant="body2">
-                            <b>Check-out: </b> {checkoutDate}
+                            <b>Check-out: </b> {booking?.checkoutDate}
                         </Typography>
                         <Typography style={{ marginTop: '13px', fontSize: '1rem' }} variant="body2">
-                            <b>Total price: </b> {totalPrice} LKR
+                            <b>Total price: </b> {booking?.totalPrice} LKR
                         </Typography>
                     </div>
                 </CardContent>
@@ -129,7 +125,7 @@ export default function BookingCard({ booking }) {
             <Dialog open={open} onClose={handleClose} fullWidth>
                 <DialogTitle>Add Review</DialogTitle>
                 <DialogContent>
-                    <AddPropertyReview userId={1} propertyId={1} handleClose={handleClose} />
+                    <AddPropertyReview userId={localStorage.getItem("userId")} propertyId={propertyId} handleClose={handleClose} />
                 </DialogContent>
             </Dialog>
         </div>

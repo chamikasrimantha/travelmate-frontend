@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import { Button, TextField, Box, Rating, DialogActions } from '@mui/material';
+import { addPropertyRate } from '../../services/api/property_rating.service';
 
 export default function AddPropertyReview({ userId, propertyId, handleClose }) {
     const [rate, setRate] = useState(0);
     const [comment, setComment] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Handle form submission logic here
+        const data = {
+            "rate": rate,
+            "comment": comment,
+            "userId": userId,
+            "propertyId": propertyId
+        }
+        const response = await addPropertyRate(data);
         console.log({ userId, propertyId, rate, comment });
-        handleClose(); // Close the dialog after submission
+        if (response.status === 200) {
+            handleClose();
+        } else {
+            handleClose();
+        }
     };
 
     return (
