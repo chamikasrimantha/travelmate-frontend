@@ -93,6 +93,7 @@ export default function Property() {
         // Save dates to localStorage or state management solution
         localStorage.setItem('checkinDate', checkinDate);
         localStorage.setItem('checkoutDate', checkoutDate);
+        localStorage.setItem('propertyId', id);
         // Navigate to the booking page
         navigate('/book');
     };
@@ -265,7 +266,7 @@ export default function Property() {
                                 }}
                             />
                             <Typography variant="body1" style={{ color: 'white', marginLeft: '15px' }}>
-                            {averageRating ? getRatingLabel(averageRating) : 'N/A'} . {reviewCount} Reviews - Read all reviews
+                                {averageRating ? getRatingLabel(averageRating) : 'N/A'} . {reviewCount} Reviews - Read all reviews
                             </Typography>
                         </Col>
                     </Row>
@@ -450,7 +451,7 @@ export default function Property() {
                 </div>
                 <div style={{ marginTop: '7px', textAlign: 'left', display: 'flex', alignItems: 'center', marginLeft: '5%' }}>
                     <div style={{ backgroundColor: '#184D9D', color: 'white', borderRadius: '4px', padding: '4px 8px', marginRight: '10px' }}>
-                    {averageRating ? averageRating : 'N/A'}
+                        {averageRating ? averageRating : 'N/A'}
                     </div>
                     <span>{averageRating ? getRatingLabel(averageRating) : ''}</span>
                     <span style={{ marginLeft: '10px' }}>. {reviewCount} reviews</span>
