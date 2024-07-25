@@ -320,10 +320,10 @@ export default function Property() {
 
             {/* Image and Map Section */}
             <div style={{ display: 'flex', height: '300px', width: '100%' }}>
-                {/* <div style={{ flex: '40%' }}>
-                    <img src={cityData.image} alt={cityData.name} style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
-                </div> */}
-                <div style={{ flex: '100%' }}>
+                <div style={{ flex: '40%' }}>
+                    <img src={propertyData?.img || 'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg'} alt={propertyData?.name} style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ flex: '60%' }}>
                     <iframe
                         width="100%"
                         height="100%"

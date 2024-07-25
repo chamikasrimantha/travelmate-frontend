@@ -26,7 +26,7 @@ export default function PropertyCard({ property }) {
             {/* Image Section */}
             <div className="text-center" style={{ flex: '1 1 auto' }}>
                 <img
-                    src={img || 'https://via.placeholder.com/200'}
+                    src={img || 'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg'}
                     alt={name}
                     style={{ width: '100%', height: 'auto', minWidth: '150px', minHeight: '150px', objectFit: 'cover', borderRadius: '8px' }}
                 />

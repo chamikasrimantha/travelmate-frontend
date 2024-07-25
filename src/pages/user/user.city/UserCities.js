@@ -209,7 +209,7 @@ export default function UserCities() {
     //     { id: '3', name: 'Jaffna District' }
     // ];
 
-    const defaultImage = 'https://via.placeholder.com/300'; // Sample image URL
+    const defaultImage = 'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg'; // Sample image URL
 
     const citiesWithRates = useMemo(() => {
         return cities.map(city => {

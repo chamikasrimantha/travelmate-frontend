@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useMediaQuery, TextField } from '@mui/material';
+import { getUserById, updateUser } from '../../services/api/user.service';
 
 const PersonalDetails = () => {
 
     const isMobile = useMediaQuery('(max-width: 600px)');
     const [isEditing, setIsEditing] = useState(false);
-    const [personalDetails, setPersonalDetails] = useState({
-        firstName: 'Chamika',
-        lastName: 'Srimantha',
-        username: 'chamikasrimantha',
-        email: 'chamikasrimantha@gmail.com',
-        address: '123 Main St',
-        phoneNumber: '+94 76 672 7852',
-    });
+    const [personalDetails, setPersonalDetails] = useState(null);
+
+    const fetchUserById = async () => {
+        const userId = localStorage.getItem('userId');
+        const response = await getUserById(userId);
+        setPersonalDetails(response.data);
+        console.log(response);
+    }
+
+    useEffect(() => {
+        fetchUserById();
+    }, []);
 
     const squareStyle = {
         backgroundColor: 'white',
@@ -28,9 +33,15 @@ const PersonalDetails = () => {
         setIsEditing(true);
     };
 
-    const handleSaveClick = () => {
-        // Perform save operation here (e.g., send data to backend)
-        setIsEditing(false);
+    const handleSaveClick = async () => {
+        const userId = localStorage.getItem('userId');
+        try {
+            const response = await updateUser(userId, personalDetails);
+            console.log(response);
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Error updating user:', error);
+        }
     };
 
     const handleChange = (e) => {
@@ -59,7 +70,7 @@ const PersonalDetails = () => {
                                                 fullWidth
                                                 label="First Name"
                                                 name="firstName"
-                                                value={personalDetails.firstName}
+                                                value={personalDetails?.firstName}
                                                 onChange={handleChange}
                                                 margin="normal"
                                             />
@@ -69,7 +80,7 @@ const PersonalDetails = () => {
                                                 fullWidth
                                                 label="Last Name"
                                                 name="lastName"
-                                                value={personalDetails.lastName}
+                                                value={personalDetails?.lastName}
                                                 onChange={handleChange}
                                                 margin="normal"
                                             />
@@ -79,7 +90,7 @@ const PersonalDetails = () => {
                                         fullWidth
                                         label="Username"
                                         name="username"
-                                        value={personalDetails.username}
+                                        value={personalDetails?.username}
                                         margin="normal"
                                         disabled
                                     />
@@ -87,7 +98,7 @@ const PersonalDetails = () => {
                                         fullWidth
                                         label="Email"
                                         name="email"
-                                        value={personalDetails.email}
+                                        value={personalDetails?.email}
                                         onChange={handleChange}
                                         margin="normal"
                                     />
@@ -95,7 +106,7 @@ const PersonalDetails = () => {
                                         fullWidth
                                         label="Address"
                                         name="address"
-                                        value={personalDetails.address}
+                                        value={personalDetails?.address}
                                         onChange={handleChange}
                                         margin="normal"
                                     />
@@ -103,18 +114,18 @@ const PersonalDetails = () => {
                                         fullWidth
                                         label="Phone Number"
                                         name="phoneNumber"
-                                        value={personalDetails.phoneNumber}
+                                        value={personalDetails?.phoneNo}
                                         onChange={handleChange}
                                         margin="normal"
                                     />
                                 </div>
                             ) : (
                                 <div>
-                                    <p>Name: {personalDetails.firstName} {personalDetails.lastName}</p>
-                                    <p>Username: {personalDetails.username}</p>
-                                    <p>Email: {personalDetails.email}</p>
-                                    <p>Address: {personalDetails.address}</p>
-                                    <p>Phone Number: {personalDetails.phoneNumber}</p>
+                                    <p>Name: {personalDetails?.firstName} {personalDetails?.lastName}</p>
+                                    <p>Username: {personalDetails?.username}</p>
+                                    <p>Email: {personalDetails?.email}</p>
+                                    <p>Address: {personalDetails?.address}</p>
+                                    <p>Phone Number: {personalDetails?.phoneNo}</p>
                                 </div>
                             )}
                         </div>
