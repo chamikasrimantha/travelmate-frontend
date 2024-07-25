@@ -31,6 +31,12 @@ export default function NavBarUser() {
         navigate('/bookings');
     }
 
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        navigate('/signin');
+    }
+
     const gotoSignIn = () => {
         navigate('/signin');
     }
@@ -43,7 +49,7 @@ export default function NavBarUser() {
         navigate('/profile');
     }
 
-    const isSignedIn = true; // check
+    const isSignedIn = !!localStorage.getItem('token'); // check
 
     return (
         <Navbar expand="lg" style={{ backgroundColor: '#043E96', minHeight: '70px' }} variant="dark">
@@ -74,7 +80,7 @@ export default function NavBarUser() {
                                 </OverlayTrigger>
                                 <Dropdown.Menu style={{ minWidth: '200px', right: 0, left: 'auto' }}>
                                     <Dropdown.Item onClick={gotoProfile} href="">My profile settings</Dropdown.Item>
-                                    <Dropdown.Item onClick={gotoSignIn} href="">Logout</Dropdown.Item>
+                                    <Dropdown.Item onClick={logout} href="">Logout</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         ) : (

@@ -28,6 +28,8 @@ import AdminAnnouncements from './pages/admin/admin.announcements/AdminAnnouncem
 import AdminProperties from './pages/admin/admin.properties/AdminProperties';
 import AdminUsers from './pages/admin/admin.users/AdminUsers';
 import PartnerProtectedRoutes from './utils/PartnerProtectedRoutes';
+import UserProtectedRoutes from './utils/UserProtectedRoutes';
+import AdminProtectedRoutes from './utils/AdminProtectedRoutes';
 
 function App() {
   return (
@@ -37,16 +39,18 @@ function App() {
 
           <Route path='/signup' element={<UserSignUp />} />
           <Route path='/signin' element={<UserSignIn />} />
-
           <Route path='/' element={<UserHome />} />
           <Route path='/city/:id' element={<UserCity />} />
           <Route path='/cities' element={<UserCities />} />
           <Route path='/property/:id' element={<UserProperty />} />
           <Route path='/properties' element={<UserProperties />} />
-          <Route path='/book' element={<UserBookingForm />} />
-          <Route path='/bookings' element={<UserBookings />} />
-          <Route path='/booking/:id' element={<UserBooking />} />
-          <Route path='/profile' element={<UserProfile />} />
+
+          <Route element={<UserProtectedRoutes />}>
+            <Route path='/book' element={<UserBookingForm />} />
+            <Route path='/bookings' element={<UserBookings />} />
+            <Route path='/booking/:id' element={<UserBooking />} />
+            <Route path='/profile' element={<UserProfile />} />
+          </Route>
 
           <Route path='/partner/signup' element={<PartnerSignUp />} />
           <Route path='/partner/signin' element={<PartnerSignIn />} />
@@ -56,19 +60,21 @@ function App() {
             <Route path='/partner/dashboard' element={<PartnerDashboard />} />
             <Route path='/partner/properties' element={<PartnerProperties />} />
             <Route path='/partner/add-new-property' element={<PartnerAddNewProperty />} />
+            <Route path='/partner/announcements' element={<PartnerAnnouncements />} />
+            <Route path='/partner/bookings' element={<PartnerBookings />} />
+            <Route path='/partner/profile' element={<PartnerProfile />} />
           </Route>
-          <Route path='/partner/announcements' element={<PartnerAnnouncements />} />
-          <Route path='/partner/bookings' element={<PartnerBookings />} />
-          <Route path='/partner/profile' element={<PartnerProfile />} />
 
           <Route path='/admin/signin' element={<AdminSignIn />} />
 
-          <Route path='/admin/dashboard' element={<AdminDashboard />} />
-          <Route path='/admin/categories' element={<AdminCategories />} />
-          <Route path='/admin/cities' element={<AdminCities />} />
-          <Route path='/admin/announcements' element={<AdminAnnouncements />} />
-          <Route path='/admin/properties' element={<AdminProperties />} />
-          <Route path='/admin/users' element={<AdminUsers />} />
+          <Route element={<AdminProtectedRoutes />}>
+            <Route path='/admin/dashboard' element={<AdminDashboard />} />
+            <Route path='/admin/categories' element={<AdminCategories />} />
+            <Route path='/admin/cities' element={<AdminCities />} />
+            <Route path='/admin/announcements' element={<AdminAnnouncements />} />
+            <Route path='/admin/properties' element={<AdminProperties />} />
+            <Route path='/admin/users' element={<AdminUsers />} />
+          </Route>
 
         </Routes>
       </BrowserRouter>

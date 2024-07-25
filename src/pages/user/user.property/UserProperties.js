@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Footer from '../../../components/footer/Footer';
 import PropertyCard from '../../../components/property/PropertyCard';
-import { getAllProperties } from '../../../services/api/property.service';
+import { getAllProperties, getPropertiesByCategory, getPropertiesByDistrict } from '../../../services/api/property.service';
 import { getPropertyRatingsByProperty } from '../../../services/api/property_rating.service';
 
 export default function UserProperties() {
