@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export const addCity = async (data) => {
     try {
         const response = await axios.post(
