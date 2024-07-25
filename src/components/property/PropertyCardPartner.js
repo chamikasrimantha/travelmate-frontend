@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
 export default function PropertyCardPartner({ property }) {
-    const { id, image, name, rate, district, city, location, description } = property;
+    const { id, img, name, rate, location, sentence } = property;
 
     // Function to get the rating label
     const getRatingLabel = (rate) => {
@@ -26,7 +26,7 @@ export default function PropertyCardPartner({ property }) {
             {/* Image Section */}
             <div className="text-center" style={{ flex: '1 1 auto' }}>
                 <img
-                    src={image}
+                    src={img || 'https://via.placeholder.com/200'}
                     alt={name}
                     style={{ width: '100%', height: 'auto', minWidth: '150px', minHeight: '150px', objectFit: 'cover', borderRadius: '8px' }}
                 />
@@ -51,16 +51,21 @@ export default function PropertyCardPartner({ property }) {
                                 marginRight: '5px'
                             }}
                         >
-                            {rate}
+                            {rate ? rate.toFixed(1) : 'N/A'}
                         </Box>
-                        <Rating name="read-only" value={rate} readOnly sx={{ marginRight: '5px' }} />
-                        <Typography variant="body2">{getRatingLabel(rate)}</Typography>
+                        <Rating name="read-only" value={rate || 0} readOnly sx={{ marginRight: '5px' }} />
+                        {rate ? (
+                            <Typography variant="body2">{getRatingLabel(rate)}</Typography>
+                        ) : ''
+                        }
                     </div>
                 </div>
                 <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mt-1">
                     <Typography variant="body2">
-                        {district}, {city}
+                        {property?.districtEntity?.name}, {property?.cityEntity?.name}
                     </Typography>
+                </div>
+                <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mt-1">
                     <Link to={`/property/${id}`} style={{ textDecoration: 'none' }}>
                         <Button variant="contained" color="primary" size="small" sx={{ backgroundColor: '#184D9D', marginTop: { xs: '8px', md: '0' } }}>
                             View
@@ -74,7 +79,7 @@ export default function PropertyCardPartner({ property }) {
                     {location}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" className="mt-2 d-flex align-items-center justify-content-between">
-                    {description}
+                    {sentence}
                 </Typography>
             </div>
         </div>

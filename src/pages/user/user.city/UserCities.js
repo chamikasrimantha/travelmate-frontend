@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import NavBarUser from '../../../components/navbar/NavBarUser';
 import { Col, Container, Row } from 'react-bootstrap';
-import { TextField, InputAdornment, IconButton } from '@mui/material';
+import { TextField, InputAdornment, IconButton, Pagination } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Footer from '../../../components/footer/Footer';
@@ -15,15 +15,21 @@ export default function UserCities() {
 
     const [cities, setCities] = useState([]);
     const [cityRatings, setCityRatings] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const citiesPerPage = 12;
 
     useEffect(() => {
         async function fetchData() {
             try {
                 const citiesResponse = await getAllCities();
-                setCities(citiesResponse.data);
+                const allCities = citiesResponse.data;
+                setTotalPages(Math.ceil(allCities.length / citiesPerPage));
+                const paginatedCities = allCities.slice((currentPage - 1) * citiesPerPage, currentPage * citiesPerPage);
+                setCities(paginatedCities);
 
                 // Fetch ratings for each city
-                const ratingsPromises = citiesResponse.data.map(city =>
+                const ratingsPromises = paginatedCities.map(city =>
                     getCityRatingsByCity(city.id)
                         .then(response => ({ cityId: city.id, ratings: response.data }))
                         .catch(error => {
@@ -46,7 +52,42 @@ export default function UserCities() {
             }
         }
         fetchData();
-    }, []);
+    }, [currentPage]);
+
+    // const [cities, setCities] = useState([]);
+    // const [cityRatings, setCityRatings] = useState({});
+
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         try {
+    //             const citiesResponse = await getAllCities();
+    //             setCities(citiesResponse.data);
+
+    //             // Fetch ratings for each city
+    //             const ratingsPromises = citiesResponse.data.map(city =>
+    //                 getCityRatingsByCity(city.id)
+    //                     .then(response => ({ cityId: city.id, ratings: response.data }))
+    //                     .catch(error => {
+    //                         console.error(`Error fetching ratings for city ${city.id}:`, error);
+    //                         return { cityId: city.id, ratings: [] };
+    //                     })
+    //             );
+
+    //             const ratingsResults = await Promise.all(ratingsPromises);
+
+    //             const ratingsMap = ratingsResults.reduce((acc, { cityId, ratings }) => {
+    //                 acc[cityId] = ratings;
+    //                 return acc;
+    //             }, {});
+
+    //             setCityRatings(ratingsMap);
+
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     }
+    //     fetchData();
+    // }, []);
 
 
     // const rates = [
@@ -184,6 +225,10 @@ export default function UserCities() {
         });
     }, [cities, cityRatings]);
 
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
     return (
         <div>
             <NavBarUser />
@@ -221,6 +266,14 @@ export default function UserCities() {
                         </Col>
                     ))}
                 </Row>
+                <div className="d-flex justify-content-center mt-4 mb-4">
+                    <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                        color="primary"
+                    />
+                </div>
             </Container>
             <Footer />
         </div>

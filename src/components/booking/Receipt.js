@@ -3,7 +3,7 @@ import { Typography, Divider } from '@mui/material';
 
 const Receipt = React.forwardRef((props, ref) => {
 
-    const { booking } = props;
+    const { booking, averageRating, reviewCount } = props;
 
     const receiptStyle = {
         fontFamily: 'Arial, sans-serif',
@@ -67,8 +67,8 @@ const Receipt = React.forwardRef((props, ref) => {
                 <Typography variant="h6" style={titleStyle}>Property Details</Typography>
                 <Typography variant="body1" style={detailStyle}><strong>Name:</strong> {booking?.propertyEntity?.name}</Typography>
                 <Typography variant="body1" style={detailStyle}><strong>Location:</strong> {booking?.propertyEntity?.location}</Typography>
-                <Typography variant="body1" style={detailStyle}><strong>Rate:</strong> {booking?.propertyRate}</Typography>
-                <Typography variant="body1" style={detailStyle}><strong>Reviews:</strong> {booking?.propertyReviews}</Typography>
+                <Typography variant="body1" style={detailStyle}><strong>Rate:</strong> {averageRating}</Typography>
+                <Typography variant="body1" style={detailStyle}><strong>Total Reviews:</strong> {reviewCount}</Typography>
             </div>
             <div style={sectionStyle}>
                 <Typography variant="h6" style={titleStyle}>Guest Details</Typography>
@@ -87,7 +87,7 @@ const Receipt = React.forwardRef((props, ref) => {
             <div style={sectionStyle2}>
                 <Typography variant="h6" style={titleStyle}>Additional Details</Typography>
                 <Typography variant="body1" style={detailStyle}><strong>Booking for:</strong> {booking?.bookingFor}</Typography>
-                <Typography variant="body1" style={detailStyle}><strong>Extra services added:</strong> {booking?.rentingAdditionals}</Typography>
+                <Typography variant="body1" style={detailStyle}><strong>Extra services added:</strong> {booking?.airportShuttle ? 'Airport shuttle added' : ''}, {booking?.rentingCar ? 'Rent a car added' : ''}, {booking?.rentingBicycle ? 'Rent a bicycle added' : ''}</Typography>
                 <Typography variant="body1" style={detailStyle}><strong>Special requests:</strong> {booking?.specialRequests}</Typography>
                 <Typography variant="body1" style={detailStyle}><strong>Arrival time:</strong> {booking?.arrivalTime}</Typography>
             </div>

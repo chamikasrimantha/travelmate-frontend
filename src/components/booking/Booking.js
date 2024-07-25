@@ -162,7 +162,7 @@ export default function Booking() {
                     </Col>
                 </Row>
                 <div style={{ display: 'none' }}>
-                    <Receipt ref={receiptRef} booking={booking} />
+                    <Receipt ref={receiptRef} booking={booking} averageRating={averageRating} reviewCount={reviewCount} />
                 </div>
             </Container>
         </div>
