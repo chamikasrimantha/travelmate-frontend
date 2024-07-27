@@ -120,7 +120,7 @@ export default function UserProperties() {
             <NavBarUser />
             <Container fluid>
                 <Row style={{ marginLeft: '5%', marginRight: '5%', marginTop: '20px' }}>
-                    <Col xs={12} md={5} style={{ borderRight: '1px solid #ddd', paddingRight: '20px' }}>
+                    <Col xs={12} md={4} style={{ borderRight: '1px solid #ddd', paddingRight: '20px' }}>
                         <h5 style={{ textAlign: 'left', marginBottom: '30px' }}>Filter By:</h5>
                         <div style={{ marginBottom: '20px' }}>
                             <h6 style={{ textAlign: 'left' }}>Categories</h6>
@@ -155,7 +155,7 @@ export default function UserProperties() {
                             </div>
                         </div>
                     </Col>
-                    <Col xs={12} md={7} style={{ paddingLeft: '20px' }}>
+                    <Col xs={12} md={8} style={{ paddingLeft: '20px' }}>
                         <Row>
                             <Col xs={12} className={isMobile ? 'mb-3 mt-3' : ''}>
                                 <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Stay at our top unique properties</h4>
