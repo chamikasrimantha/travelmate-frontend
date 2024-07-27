@@ -14,7 +14,7 @@ export default function BookingCardPartner({ booking }) {
         firstName,
         lastName,
         email,
-        phoneno
+        phoneNo
     } = booking;
 
     const isMobile = useMediaQuery('(max-width:600px)');
@@ -92,7 +92,7 @@ export default function BookingCardPartner({ booking }) {
                             <b>Email:</b> {email}
                         </Typography>
                         <Typography variant="body2" style={{ marginTop: '10px', fontSize: '1rem', ...textEllipsisStyle }} color="textSecondary">
-                            <b>Phone Number:</b> {phoneno}
+                            <b>Phone Number:</b> {phoneNo}
                         </Typography>
                         <Typography variant="body2" style={{ marginTop: '10px', fontSize: '1rem', ...textEllipsisStyle }} color="textSecondary">
                             <b>Check-in:</b> {checkinDate}
