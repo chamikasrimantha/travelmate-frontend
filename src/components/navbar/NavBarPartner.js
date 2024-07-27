@@ -39,7 +39,13 @@ export default function NavBarPartner() {
         navigate('/partner/profile');
     }
 
-    const isSignedIn = true; // check
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        navigate('/partner/signin')
+    }
+
+    const isSignedIn = !!localStorage.getItem('token'); // check 
 
     return (
         <Navbar expand="lg" style={{ backgroundColor: '#043E96', minHeight: '70px' }} variant="dark">
@@ -69,7 +75,7 @@ export default function NavBarPartner() {
                                 </OverlayTrigger>
                                 <Dropdown.Menu style={{ minWidth: '200px', right: 0, left: 'auto' }}>
                                     <Dropdown.Item onClick={gotoProfile} href="">My profile settings</Dropdown.Item>
-                                    <Dropdown.Item onClick={gotoSignIn} href="">Logout</Dropdown.Item>
+                                    <Dropdown.Item onClick={logout} href="">Logout</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         ) : (
