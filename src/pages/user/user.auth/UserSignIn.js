@@ -4,7 +4,7 @@ import NavBarAuth from '../../../components/navbar/NavBarAuth';
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
-import { userLogin } from '../../../services/api/user.service'
+import { userLogin } from '../../../services/api/user.service';
 
 export default function UserSignIn() {
 

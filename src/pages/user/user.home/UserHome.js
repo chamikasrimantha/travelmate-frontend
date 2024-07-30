@@ -284,7 +284,7 @@ export default function UserHome() {
                     <p style={{ textAlign: 'left' }}>From castles and villas to boats and igloos, we have it all</p>
                 </div>
                 <Row style={{ marginLeft: '4%', marginRight: '4%' }} xs={1} md={2} className="g-1 justify-content-center">
-                    {propertiesWithRates.slice(0, 3).map((property, index) => (
+                    {propertiesWithRates.slice(0, 2).map((property, index) => (
                         <Col key={index} className="d-flex justify-content-center">
                             <PropertyCard property={property} />
                         </Col>
