@@ -23,6 +23,7 @@ export default function AdminSignIn() {
         if (response.status === 200) {
           localStorage.setItem("token", response.data);
           axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
+          alert("SignIn successful!");
           navigate("/admin/dashboard");
         } else {
           console.log("login error!");

@@ -164,6 +164,7 @@ export default function AddProperty() {
         };
         const response = await createProperty(data);
         if (response.status === 200) {
+            alert("Property added!");
             setConfirmed(true);
             setStep(4); // Step 4 indicates the final confirmation step
         } else {

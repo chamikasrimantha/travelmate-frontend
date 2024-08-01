@@ -90,6 +90,7 @@ export default function PartnerAnnouncements() {
         };
         const response = await createPartnerAnnouncement(data);
         if (response.status === 200) {
+            alert("Announcement added!");
             handleClose();
         } else {
             handleClose();

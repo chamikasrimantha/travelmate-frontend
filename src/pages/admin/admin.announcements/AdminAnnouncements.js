@@ -62,6 +62,7 @@ export default function AdminAnnouncements() {
         };
         const response = await createAdminAnnouncement(data);
         if (response.status === 200) {
+            alert("Announcement added!");
             handleClose();
         } else {
             handleClose();

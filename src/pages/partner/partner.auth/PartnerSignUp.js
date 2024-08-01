@@ -34,6 +34,7 @@ export default function PartnerSignUp() {
         }
         const response = await partnerRegister(data);
         if (response.status === 200) {
+            alert("SignUp successful!");
             gotoSignIn();
         } else {
             console.log("error");

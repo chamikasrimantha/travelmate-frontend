@@ -34,6 +34,7 @@ export default function UserSignUp() {
     }
     const response = await userRegister(data);
     if (response.status === 200) {
+      alert("SignUp successful!");
       gotoSignIn();
     } else {
       console.log("error");

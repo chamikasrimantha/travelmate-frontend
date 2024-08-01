@@ -30,6 +30,7 @@ export default function PartnerSignIn() {
                 localStorage.setItem("token", token);
                 localStorage.setItem("userId", userId);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                alert("SignIn successful!");
                 navigate("/partner/dashboard");
             } else {
                 console.log("login error!");

@@ -74,6 +74,7 @@ export default function AdminCategories() {
         };
         const response = await createCategory(data);
         if (response.status === 200) {
+            alert("Category added!");
             handleClose();
         } else {
             handleClose();
