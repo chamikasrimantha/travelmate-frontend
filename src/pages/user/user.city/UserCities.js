@@ -14,21 +14,24 @@ export default function UserCities() {
     const isMobile = useMediaQuery('(max-width: 600px)');
 
     const [cities, setCities] = useState([]);
+    const [allCities, setAllCities] = useState([]);
     const [cityRatings, setCityRatings] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [searchQuery, setSearchQuery] = useState('');
     const citiesPerPage = 12;
 
     useEffect(() => {
         async function fetchData() {
             try {
                 const citiesResponse = await getAllCities();
-                const allCities = citiesResponse.data;
-                setTotalPages(Math.ceil(allCities.length / citiesPerPage));
-                const paginatedCities = allCities.slice((currentPage - 1) * citiesPerPage, currentPage * citiesPerPage);
-                setCities(paginatedCities);
+                const allCitiesData = citiesResponse.data;
+                setAllCities(allCitiesData);
 
-                // Fetch ratings for each city
+                const paginatedCities = allCitiesData.slice((currentPage - 1) * citiesPerPage, currentPage * citiesPerPage);
+                setCities(paginatedCities);
+                setTotalPages(Math.ceil(allCitiesData.length / citiesPerPage));
+
                 const ratingsPromises = paginatedCities.map(city =>
                     getCityRatingsByCity(city.id)
                         .then(response => ({ cityId: city.id, ratings: response.data }))
@@ -53,6 +56,40 @@ export default function UserCities() {
         }
         fetchData();
     }, [currentPage]);
+
+    useEffect(() => {
+        const filteredCities = allCities.filter(city =>
+            city.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setTotalPages(Math.ceil(filteredCities.length / citiesPerPage));
+        const paginatedCities = filteredCities.slice((currentPage - 1) * citiesPerPage, currentPage * citiesPerPage);
+        setCities(paginatedCities);
+    }, [searchQuery, currentPage, allCities]);
+
+    const defaultImage = 'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg'; // Sample image URL
+
+    const citiesWithRates = useMemo(() => {
+        return cities.map(city => {
+            const cityRates = cityRatings[city.id] || [];
+            const averageRate = cityRates.length > 0
+                ? cityRates.reduce((sum, rate) => sum + rate.rate, 0) / cityRates.length
+                : 0;
+            return {
+                ...city,
+                rate: averageRate,
+                image: defaultImage
+            };
+        });
+    }, [cities, cityRatings]);
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
+    const handleSearch = (event) => {
+        setSearchQuery(event.target.value);
+        setCurrentPage(1); // Reset to first page on search
+    };
 
     // const [cities, setCities] = useState([]);
     // const [cityRatings, setCityRatings] = useState({});
@@ -209,26 +246,6 @@ export default function UserCities() {
     //     { id: '3', name: 'Jaffna District' }
     // ];
 
-    const defaultImage = 'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg'; // Sample image URL
-
-    const citiesWithRates = useMemo(() => {
-        return cities.map(city => {
-            const cityRates = cityRatings[city.id] || [];
-            const averageRate = cityRates.length > 0
-                ? cityRates.reduce((sum, rate) => sum + rate.rate, 0) / cityRates.length
-                : 0;
-            return {
-                ...city,
-                rate: averageRate,
-                image: defaultImage
-            };
-        });
-    }, [cities, cityRatings]);
-
-    const handlePageChange = (event, value) => {
-        setCurrentPage(value);
-    };
-
     return (
         <div>
             <NavBarUser />
@@ -245,6 +262,8 @@ export default function UserCities() {
                                 variant="outlined"
                                 size="small"
                                 placeholder="Search"
+                                value={searchQuery}
+                                onChange={handleSearch}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">

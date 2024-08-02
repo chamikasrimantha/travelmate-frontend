@@ -8,7 +8,7 @@ export default function PartnerAddNewProperty() {
     <div>
       <NavBarPartner />
       <AddProperty />
-      <br />
+      <br /><br /><br /><br />
       <Footer />
     </div>
   )

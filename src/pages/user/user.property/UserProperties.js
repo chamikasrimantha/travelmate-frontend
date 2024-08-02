@@ -20,6 +20,7 @@ export default function UserProperties() {
     const [districts, setDistricts] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedDistricts, setSelectedDistricts] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         async function fetchData() {
@@ -102,8 +103,18 @@ export default function UserProperties() {
         );
     };
 
+    const handleSearch = (event) => {
+        setSearchQuery(event.target.value.toLowerCase());
+    };
+
+    const filteredProperties = useMemo(() => {
+        return properties.filter(property =>
+            property.name.toLowerCase().includes(searchQuery)
+        );
+    }, [properties, searchQuery]);
+
     const propertiesWithRates = useMemo(() => {
-        return properties.map(property => {
+        return filteredProperties.map(property => {
             const propertyRates = propertyRatings[property.id] || [];
             const averageRate = propertyRates.length > 0
                 ? propertyRates.reduce((sum, rate) => sum + rate.rate, 0) / propertyRates.length
@@ -113,7 +124,7 @@ export default function UserProperties() {
                 rate: averageRate
             };
         });
-    }, [properties, propertyRatings]);
+    }, [filteredProperties, propertyRatings]);
 
     return (
         <div>
@@ -164,6 +175,8 @@ export default function UserProperties() {
                                     variant="outlined"
                                     size="small"
                                     placeholder="Search"
+                                    value={searchQuery}
+                                    onChange={handleSearch}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
