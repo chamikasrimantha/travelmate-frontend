@@ -458,7 +458,7 @@ export default function Property() {
                     <span style={{ marginLeft: '10px', color: '#184D9D', cursor: 'pointer' }}> Read all reviews</span>
                 </div>
                 <Row style={{ marginLeft: '02%', marginRight: '02%', marginTop: '10px' }} xs={1} md={2} lg={3} className="g-1 justify-content-center">
-                    {rateData.map((rate, index) => (
+                    {rateData.slice(-3).map((rate, index) => (
                         <Col key={index} className="d-flex justify-content-center">
                             <RateCard rateData={rate} />
                         </Col>
@@ -497,7 +497,7 @@ export default function Property() {
                     <p style={{ textAlign: 'left' }}>Special announcements</p>
                 </div>
                 <Row style={{ marginLeft: '02%', marginRight: '02%', marginTop: '10px' }} xs={1} md={3} className="g-1 justify-content-center">
-                    {announcements.map((announcement, index) => (
+                    {announcements.slice(-3).map((announcement, index) => (
                         <Col key={index} className="d-flex justify-content-center">
                             <PartnerAnnouncementCard announcement={announcement} />
                         </Col>

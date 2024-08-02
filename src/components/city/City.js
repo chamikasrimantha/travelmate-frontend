@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Container, Row, Col, Form, FormControl } from 'react-bootstrap';
 import { Box, Typography, Rating, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,12 +10,15 @@ import PropertyCard from '../property/PropertyCard';
 import { getCityById } from '../../services/api/city.service';
 import { getCityRatingsByCity } from '../../services/api/city_rating.service';
 import { getPropertiesByCity } from '../../services/api/property.service';
+import { getPropertyRatingsByProperty } from '../../services/api/property_rating.service';
 
 export default function City() {
 
     const [cityData, setCityData] = useState(null);
     const [rateData, setRatings] = useState([]);
     const [properties, setProperties] = useState([]);
+    const [propertyRatings, setPropertyRatings] = useState([]);
+
     const { id } = useParams();
 
     const [open, setOpen] = useState(false);
@@ -65,6 +68,26 @@ export default function City() {
                     ...prevData,
                     propertiesCount: propertiesResponse.data.length,
                 }));
+
+                // Fetch ratings for each property
+                const ratingsPromises = propertiesResponse.data.map(property =>
+                    getPropertyRatingsByProperty(property.id)
+                        .then(response => ({ propertyId: property.id, ratings: response.data }))
+                        .catch(error => {
+                            console.error(`Error fetching ratings for property ${property.id}:`, error);
+                            return { propertyId: property.id, ratings: [] };
+                        })
+                );
+
+                const ratingsResults = await Promise.all(ratingsPromises);
+
+                const ratingsMap = ratingsResults.reduce((acc, { propertyId, ratings }) => {
+                    acc[propertyId] = ratings;
+                    return acc;
+                }, {});
+
+                setPropertyRatings(ratingsMap);
+
             } catch (error) {
                 console.error("Error fetching city properties:", error);
             }
@@ -74,6 +97,19 @@ export default function City() {
         fetchRatings();
         fetchProperties();
     }, [id]);
+
+    const propertiesWithRates = useMemo(() => {
+        return properties.map(property => {
+            const propertyRates = propertyRatings[property.id] || [];
+            const averageRate = propertyRates.length > 0
+                ? propertyRates.reduce((sum, rate) => sum + rate.rate, 0) / propertyRates.length
+                : 0;
+            return {
+                ...property,
+                rate: averageRate
+            };
+        });
+    }, [properties, propertyRatings]);
 
     // Sample data
     // const cityData = {
@@ -300,7 +336,7 @@ export default function City() {
                     <span style={{ marginLeft: '10px', color: '#184D9D', cursor: 'pointer' }}> Read all reviews</span>
                 </div>
                 <Row style={{ marginLeft: '02%', marginRight: '02%', marginTop: '10px' }} xs={1} md={2} lg={3} className="g-1 justify-content-center">
-                    {rateData.map((rate, index) => (
+                    {rateData.slice(-3).map((rate, index) => (
                         <Col key={index} className="d-flex justify-content-center">
                             <RateCard rateData={rate} />
                         </Col>
@@ -323,7 +359,7 @@ export default function City() {
                     <p style={{ textAlign: 'left', color: '#184D9D', cursor: 'pointer' }}>Load all properties</p>
                 </div>
                 <Row style={{ marginLeft: '4%', marginRight: '4%' }} xs={1} md={2} className="g-1 justify-content-center">
-                    {properties.map((property, index) => (
+                    {propertiesWithRates.slice(0, 3).map((property, index) => (
                         <Col key={index} className="d-flex justify-content-center">
                             <PropertyCard property={property} />
                         </Col>
