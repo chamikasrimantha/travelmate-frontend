@@ -163,6 +163,7 @@ export default function UserBookings() {
                         </Col>
                     ))}
                 </Row>
+                <br/>
             </Container>
             <Footer />
         </div>

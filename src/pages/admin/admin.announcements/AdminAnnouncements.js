@@ -109,7 +109,7 @@ export default function AdminAnnouncements() {
                 </Row>
             </Container>
 
-            <br />
+            <br /><br /><br /><br /><br />
             <Footer />
 
             {/* Add Announcement Dialog */}

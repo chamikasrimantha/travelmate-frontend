@@ -137,7 +137,7 @@ export default function PartnerAnnouncements() {
                 </Row>
             </Container>
 
-            <br />
+            <br /><br /><br /><br /><br />
             <Footer />
 
             {/* Add Announcement Dialog */}

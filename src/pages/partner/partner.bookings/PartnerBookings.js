@@ -88,7 +88,7 @@ export default function PartnerBookings() {
             </Container>
 
             <Container>
-                <Table striped bordered hover style={{marginBottom: '30px', marginTop: '20px'}}>
+                <Table striped bordered hover style={{ marginBottom: '30px', marginTop: '20px' }}>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -124,7 +124,7 @@ export default function PartnerBookings() {
                     </tbody>
                 </Table>
             </Container>
-
+            <br /><br /><br /><br />
             <Footer />
         </div>
     );

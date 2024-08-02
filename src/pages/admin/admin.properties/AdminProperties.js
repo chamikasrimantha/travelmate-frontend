@@ -164,7 +164,7 @@ export default function AdminProperties() {
         </Row>
       </Container>
 
-      <br />
+      <br /><br /><br /><br /><br />
       <Footer />
     </div>
   )

@@ -121,7 +121,7 @@ export default function AdminCategories() {
                 </Row>
             </Container>
 
-            <br />
+            <br /><br /><br /><br /><br />
             <Footer />
 
             {/* Add Announcement Dialog */}
