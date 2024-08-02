@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 export default function BookingCardPartner({ booking }) {
     const {
         id,
-        propertyName,
         checkinDate,
         checkoutDate,
         totalPrice,
@@ -86,7 +85,7 @@ export default function BookingCardPartner({ booking }) {
                             {firstName} {lastName}
                         </Typography>
                         <Typography variant="h6" style={{ marginTop: '10px', fontWeight: 'bold', fontSize: '1rem', ...textEllipsisStyle }}>
-                            {propertyName}
+                            {booking?.propertyEntity?.name}
                         </Typography>
                         <Typography variant="body2" style={{ marginTop: '10px', fontSize: '1rem', ...textEllipsisStyle }} color="textSecondary">
                             <b>Email:</b> {email}

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import NavBarPartner from '../../../components/navbar/NavBarPartner';
 import Footer from '../../../components/footer/Footer';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { ButtonBase } from '@mui/material';
 import PropertyCardPartner from '../../../components/property/PropertyCardPartner';
@@ -130,7 +130,7 @@ export default function PartnerProperties() {
                 </Row>
             </Container>
 
-            <br /><br /><br /><br /><br />
+            <br /><br /><br />
             <Footer />
         </div>
     )

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useMediaQuery, TextField } from '@mui/material';
 import { getUserById, updateUser } from '../../services/api/user.service';
+import { useNavigate } from 'react-router-dom';
 
 const PersonalDetails = () => {
 
@@ -231,12 +232,15 @@ const DeleteAccount = () => {
             <Container fluid>
                 <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
                     <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Delete account</h4>
-                    <p style={{ textAlign: 'left' }}>Update your information and find out how it's used.</p>
+                    <p style={{ textAlign: 'left' }}>You can delete your account by clicking on delete button.</p>
                 </div>
                 <Row className="justify-content-center">
                     <Col md={6} className="mb-0" style={{ width: isMobile ? '100%' : '90%' }}>
                         <div style={squareStyle}>
-
+                            <p>Are you sure you want to delete your account?</p>
+                            <Button variant="primary">
+                                Yes, delete
+                            </Button>
                         </div>
                     </Col>
                 </Row>
@@ -258,17 +262,27 @@ const Logout = () => {
         textAlign: 'left',
     };
 
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        navigate('/signin');
+    }
+
     return (
         <div>
             <Container fluid>
                 <div className="text-center mt-4" style={{ marginLeft: '5%' }}>
                     <h4 style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.25rem' }}>Logout</h4>
-                    <p style={{ textAlign: 'left' }}>Update your information and find out how it's used.</p>
+                    <p style={{ textAlign: 'left' }}>You can logout by clicking on logout button easily.</p>
                 </div>
                 <Row className="justify-content-center">
                     <Col md={6} className="mb-0" style={{ width: isMobile ? '100%' : '90%' }}>
                         <div style={squareStyle}>
-
+                            <Button variant="primary" onClick={logout}>
+                                Logout
+                            </Button>
                         </div>
                     </Col>
                 </Row>
