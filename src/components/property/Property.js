@@ -45,6 +45,13 @@ export default function Property() {
     const [averageRating, setAverageRating] = useState(null);
     const [reviewCount, setReviewCount] = useState(0);
 
+    const handleChatClick = () => {
+        // Store the receiver ID in localStorage
+        localStorage.setItem('receiverId', propertyData?.userEntity?.id);
+        // Navigate to the chat page
+        navigate('/chat');
+    };
+
     useEffect(() => {
         const fetchPropertyData = async () => {
             try {
@@ -342,6 +349,7 @@ export default function Property() {
                             {propertyData?.description}
                         </Typography>
                         <Button
+                            onClick={handleChatClick}
                             className="d-flex justify-content-between align-items-center mt-3"
                             style={{
                                 backgroundColor: '#184D9D',
@@ -352,7 +360,7 @@ export default function Property() {
                                 cursor: 'pointer'
                             }}
                         >
-                            I'll Serve
+                            Chat
                         </Button>
                     </Col>
                 </Row>

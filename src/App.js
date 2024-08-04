@@ -30,6 +30,7 @@ import AdminUsers from './pages/admin/admin.users/AdminUsers';
 import PartnerProtectedRoutes from './utils/PartnerProtectedRoutes';
 import UserProtectedRoutes from './utils/UserProtectedRoutes';
 import AdminProtectedRoutes from './utils/AdminProtectedRoutes';
+import UserChat from './pages/user/user.chat/UserChat';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
             <Route path='/bookings' element={<UserBookings />} />
             <Route path='/booking/:id' element={<UserBooking />} />
             <Route path='/profile' element={<UserProfile />} />
+            <Route path='/chat' element={<UserChat />} />
           </Route>
 
           <Route path='/partner/signup' element={<PartnerSignUp />} />
