@@ -359,7 +359,7 @@ export default function City() {
                     <p style={{ textAlign: 'left', color: '#184D9D', cursor: 'pointer' }}>Load all properties</p>
                 </div>
                 <Row style={{ marginLeft: '4%', marginRight: '4%' }} xs={1} md={2} className="g-1 justify-content-center">
-                    {propertiesWithRates.slice(0, 3).map((property, index) => (
+                    {propertiesWithRates.slice(0, 2).map((property, index) => (
                         <Col key={index} className="d-flex justify-content-center">
                             <PropertyCard property={property} />
                         </Col>
