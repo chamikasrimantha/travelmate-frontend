@@ -69,72 +69,74 @@ export default function UserChat() {
     };
 
     return (
-        <div style={styles.page}>
+        <div >
             <NavBarUser />
-            <div style={styles.container}>
-                {/* Contacts Sidebar */}
-                <div style={styles.sidebar}>
-                    <h4>Partners</h4>
-                    <ul style={styles.contactList}>
-                        {contacts.map((contact) => (
-                            <li
-                                key={contact.id}
-                                onClick={() => setCurrentChat(contact)}
-                                style={{
-                                    ...styles.contactItem,
-                                    backgroundColor: currentChat?.id === contact.id ? "#ddd" : "transparent",
-                                }}
-                            >
-                                {contact.firstName} {contact.lastName}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+            <div style={styles.page}>
+                <div style={styles.container}>
+                    {/* Contacts Sidebar */}
+                    <div style={styles.sidebar}>
+                        <h4>Partners</h4>
+                        <ul style={styles.contactList}>
+                            {contacts.map((contact) => (
+                                <li
+                                    key={contact.id}
+                                    onClick={() => setCurrentChat(contact)}
+                                    style={{
+                                        ...styles.contactItem,
+                                        backgroundColor: currentChat?.id === contact.id ? "#ddd" : "transparent",
+                                    }}
+                                >
+                                    {contact.firstName} {contact.lastName}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                {/* Chat Area */}
-                <div style={styles.chatArea}>
-                    {currentChat ? (
-                        <>
-                            <div style={styles.chatHeader}>
-                                <h5>Chat with {currentChat.firstName} {currentChat.lastName}</h5>
+                    {/* Chat Area */}
+                    <div style={styles.chatArea}>
+                        {currentChat ? (
+                            <>
+                                <div style={styles.chatHeader}>
+                                    <h5>Chat with {currentChat.firstName} {currentChat.lastName}</h5>
+                                </div>
+                                <div style={styles.chatBox}>
+                                    {messages.length > 0 ? (
+                                        messages.map((msg, index) => (
+                                            <div
+                                                key={index}
+                                                style={{
+                                                    ...styles.message,
+                                                    alignSelf: msg.senderId === localStorage.getItem('userId') ? "flex-end" : "flex-start",
+                                                    backgroundColor: msg.senderId === localStorage.getItem('userId') ? "#007bff" : "#e9ecef",
+                                                    color: msg.senderId === localStorage.getItem('userId') ? "white" : "black",
+                                                }}
+                                            >
+                                                {msg.message}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>No messages yet.</p>
+                                    )}
+                                </div>
+                                <form style={styles.inputArea} onSubmit={send}>
+                                    <input
+                                        type="text"
+                                        placeholder="Type a message..."
+                                        value={message}
+                                        onChange={(e) => setMessage(e.target.value)}
+                                        style={styles.input}
+                                    />
+                                    <button type="submit" style={styles.sendButton}>
+                                        Send
+                                    </button>
+                                </form>
+                            </>
+                        ) : (
+                            <div style={styles.noChat}>
+                                <p>Select a contact to start chatting.</p>
                             </div>
-                            <div style={styles.chatBox}>
-                                {messages.length > 0 ? (
-                                    messages.map((msg, index) => (
-                                        <div
-                                            key={index}
-                                            style={{
-                                                ...styles.message,
-                                                alignSelf: msg.senderId === localStorage.getItem('userId') ? "flex-end" : "flex-start",
-                                                backgroundColor: msg.senderId === localStorage.getItem('userId') ? "#007bff" : "#e9ecef",
-                                                color: msg.senderId === localStorage.getItem('userId') ? "white" : "black",
-                                            }}
-                                        >
-                                            {msg.message}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No messages yet.</p>
-                                )}
-                            </div>
-                            <form style={styles.inputArea} onSubmit={send}>
-                                <input
-                                    type="text"
-                                    placeholder="Type a message..."
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    style={styles.input}
-                                />
-                                <button type="submit" style={styles.sendButton}>
-                                    Send
-                                </button>
-                            </form>
-                        </>
-                    ) : (
-                        <div style={styles.noChat}>
-                            <p>Select a contact to start chatting.</p>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
