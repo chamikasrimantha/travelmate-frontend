@@ -47,14 +47,20 @@ export default function UserHomeHeader() {
                 },
                 body: JSON.stringify({
                     model: 'gpt-3.5-turbo',
-                    messages: [{ role: 'user', content: userMessage }],
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are TravelMate, an intelligent travel assistant. Your role is to help users explore travel destinations, plan trips, manage bookings, and provide travel tips for Sri Lanka. Respond politely and provide relevant, concise information.'
+                        },
+                        { role: 'user', content: userMessage },
+                    ],
                 }),
             });
 
             const data = await response.json();
             setChatResponse(data.choices[0]?.message?.content || 'Sorry, I couldn’t understand your question.');
         } catch (error) {
-            setChatResponse('Error communicating with the AI.');
+            setChatResponse('Error communicating with the TravelMate AI.');
         }
 
         setUserMessage('');
