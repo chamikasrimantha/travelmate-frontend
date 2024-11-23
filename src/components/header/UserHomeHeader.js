@@ -197,8 +197,8 @@ export default function UserHomeHeader() {
                         borderRadius: '0px 0px 0 0',
                     }}
                 >
-                    <Modal.Title style={{ fontFamily: 'Arial, sans-serif', fontSize: '1.5rem' }}>
-                        TravelMate AI
+                    <Modal.Title style={{ fontFamily: 'Arial, sans-serif', fontSize: '1.2rem' }}>
+                        TravelMate AI Assistant
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body
