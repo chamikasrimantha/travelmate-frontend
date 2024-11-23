@@ -64,7 +64,7 @@ export default function NavBarUser() {
                         <Nav.Link href="" onClick={cities} style={{ color: 'white', marginRight: '30px' }}>Cities</Nav.Link>
                         <Nav.Link href="" onClick={properties} style={{ color: 'white', marginRight: '30px' }}>Properties</Nav.Link>
                         <Nav.Link href="" onClick={chat} style={{ color: 'white', marginRight: '30px' }}>Chat</Nav.Link>
-                        <Nav.Link href="" onClick={ai} style={{ color: 'white', marginRight: '30px' }}>AI Assistant</Nav.Link>
+                        {/* <Nav.Link href="" onClick={ai} style={{ color: 'white', marginRight: '30px' }}>AI Assistant</Nav.Link> */}
                         <Nav.Link href="" onClick={bookings} style={{ color: 'white', marginRight: '30px' }}>Bookings</Nav.Link>
                     </Nav>
                     <Nav>
